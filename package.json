@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@fluentui/react": "^8.115.6",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
@@ -36,6 +37,9 @@
     ]
   },
   "devDependencies": {
+    "typescript": "^5.3.3"
+  },
+  "overrides": {
     "typescript": "^5.3.3"
   }
 }

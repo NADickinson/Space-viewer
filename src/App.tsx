@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { getImageOfTheDay } from './api/getImageOfTheDay'
+import { ImageContainer } from './components/ImageContainer'
+import { BackgroundContainer } from './components/BackgroundContainer'
 
 export const App = () => {
   const [apiData, setApiData] = useState<{
@@ -22,7 +24,11 @@ export const App = () => {
     getPhoto()
   }, [])
 
-  return <div> </div>
+  return (
+    <BackgroundContainer>
+      <ImageContainer src={apiData ? apiData.url : ''} />{' '}
+    </BackgroundContainer>
+  )
 }
 
 //'React' refers to a UMD global, but the current file is a module. Consider adding an import instead.ts(2686)
