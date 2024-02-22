@@ -21,7 +21,7 @@ export const App = () => {
 
     getPhoto()
   }, [])
-  console.log(apiData)
+
   return <div> </div>
 }
 
