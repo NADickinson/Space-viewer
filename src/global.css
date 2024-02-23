@@ -30,14 +30,16 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  flex: 1;
-  max-height: 80%;
-  max-width: 80%;
+  max-height: 70%;
+  max-width: 90%;
+  align-self: center;
+  padding-top: 20px;
 }
 
 .space-image {
+  flex: 1;
   max-width: 100%;
-  max-height: 100%;
+  max-height: 90%;
 }
 
 .background-container {
@@ -45,9 +47,18 @@ body {
   height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
 }
 
 .nav-bar {
+  min-width: 100%;
+  min-height: 10%;
+  background-color: blue;
+}
+
+.tool-bar {
+  min-width: 100%;
+  background-color: hotpink;
+  min-height: 10%;
+  flex: 1;
 }
