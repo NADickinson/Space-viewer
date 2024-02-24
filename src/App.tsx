@@ -30,11 +30,10 @@ export const App = () => {
   return (
     <BackgroundContainer>
       <NavBar />
-      <ImageContainer src={apiData ? apiData.url : ''}>
-        <ToolBar>
-          <CustomSelect options={[{ key: '111', text: '111' }]} />
-        </ToolBar>
-      </ImageContainer>
+      <ImageContainer src={apiData ? apiData.url : ''} />
+      <ToolBar>
+        <CustomSelect options={[{ key: '111', text: '111' }]} />
+      </ToolBar>
     </BackgroundContainer>
   )
 }
