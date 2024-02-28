@@ -4,24 +4,40 @@ import { ImageContainer } from './components/ImageContainer'
 import { BackgroundContainer } from './components/BackgroundContainer'
 import { NavBar } from './components/NavBar'
 import { ToolBar } from './components/tool_bar/ToolBar'
-import { CustomSelect } from './components/tool_bar/CustomSelect'
+import { CustomSelect, dropDownFormatConversion } from './components/tool_bar/CustomSelect'
+
+export type NasaObject = {
+  copyright: string
+  date: string
+  explanation: string
+  hdurl: string
+  media_type: string
+  service_version: string
+  title: string
+  url: string
+}
 
 export const App = () => {
-  const [apiData, setApiData] = useState<{
-    copyright: string
-    date: string
-    explanation: string
-    hdurl: string
-    media_type: string
-    service_version: string
-    title: string
-    url: string
-  }>()
+  const [apiData, setApiData] = useState<NasaObject>()
+  const [apiDataTotal, setApiDataTotal] = useState<NasaObject[]>()
+
   useEffect(() => {
     const getPhoto = async () => {
-      const data = await getImageOfTheDay()
+      const data = await getImageOfTheDay('')
       setApiData(data)
       console.log(data)
+    }
+
+    getPhoto()
+  }, [])
+
+  useEffect(() => {
+    const getPhoto = async () => {
+      const data = await getImageOfTheDay('2024-02-01')
+      setApiDataTotal(data)
+      console.log(data)
+      console.log(dropDownFormatConversion(data))
+      console.log(apiDataTotal)
     }
 
     getPhoto()
@@ -32,7 +48,7 @@ export const App = () => {
       <NavBar />
       <ImageContainer src={apiData ? apiData.url : ''} />
       <ToolBar>
-        <CustomSelect options={[{ key: '111', text: '111' }]} />
+        <CustomSelect options={dropDownFormatConversion(apiDataTotal)} />
       </ToolBar>
     </BackgroundContainer>
   )

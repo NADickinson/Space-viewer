@@ -1,8 +1,8 @@
 import { apiKey } from './apiKey'
 
-export const getImageOfTheDay = async () => {
+export const getImageOfTheDay = async (date: string) => {
   try {
-    const response = await fetch(`https://api.nasa.gov/planetary/apod?api_key=${apiKey}`)
+    const response = await fetch(`https://api.nasa.gov/planetary/apod?api_key=${apiKey}&start_date=${date}`)
     if (!response.ok) {
       throw new Error('response error')
     }
