@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { getImageOfTheDay } from './api/getImageOfTheDay'
-import { ImageContainer } from './components/ImageContainer'
+import { ContentContainer } from './components/ContentContainer'
 import { BackgroundContainer } from './components/BackgroundContainer'
 import { NavBar } from './components/NavBar'
 import { ToolBar } from './components/tool_bar/ToolBar'
@@ -19,7 +19,7 @@ export type NasaObject = {
 
 export const App = () => {
   const [apiData, setApiData] = useState<NasaObject>()
-  const [apiDataTotal, setApiDataTotal] = useState<NasaObject[]>()
+  const [apiDataTotal, setApiDataTotal] = useState<NasaObject[]>([])
 
   useEffect(() => {
     const getPhoto = async () => {
@@ -46,9 +46,9 @@ export const App = () => {
   return (
     <BackgroundContainer>
       <NavBar />
-      <ImageContainer src={apiData ? apiData.url : ''} />
+      <ContentContainer src={apiData} />
       <ToolBar>
-        <CustomSelect options={dropDownFormatConversion(apiDataTotal)} />
+        <CustomSelect optionsToBe={apiDataTotal} onChange={setApiData} />
       </ToolBar>
     </BackgroundContainer>
   )
