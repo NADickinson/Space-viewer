@@ -18,6 +18,7 @@ export const CustomSelect = ({
   return (
     <Dropdown
       options={dropDownFormatConversion(optionsToBe)}
+      placeholder="Select an option"
       onChange={(event, o) => {
         if (!o) {
           return

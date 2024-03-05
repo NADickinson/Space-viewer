@@ -8,6 +8,8 @@
   padding: 0;
 
   position: relative;
+
+  box-sizing: border-box;
 }
 
 html {
@@ -55,5 +57,10 @@ body {
 
 .tool-bar {
   background-color: hotpink;
-  height: 60px;
+  max-height: 60px;
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+  justify-content: center;
+  flex-wrap: wrap;
 }

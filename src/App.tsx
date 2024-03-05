@@ -5,6 +5,7 @@ import { BackgroundContainer } from './components/BackgroundContainer'
 import { NavBar } from './components/NavBar'
 import { ToolBar } from './components/tool_bar/ToolBar'
 import { CustomSelect, dropDownFormatConversion } from './components/tool_bar/CustomSelect'
+import { FavButton } from './components/tool_bar/FavButton'
 
 export type NasaObject = {
   copyright: string
@@ -18,13 +19,14 @@ export type NasaObject = {
 }
 
 export const App = () => {
-  const [apiData, setApiData] = useState<NasaObject>()
+  const [currentDisplayed, setCurrentDisplayed] = useState<NasaObject>()
   const [apiDataTotal, setApiDataTotal] = useState<NasaObject[]>([])
+  const [favList, setFavList] = useState<NasaObject[]>([])
 
   useEffect(() => {
     const getPhoto = async () => {
       const data = await getImageOfTheDay('')
-      setApiData(data)
+      setCurrentDisplayed(data)
       console.log(data)
     }
 
@@ -46,9 +48,10 @@ export const App = () => {
   return (
     <BackgroundContainer>
       <NavBar />
-      <ContentContainer src={apiData} />
+      <ContentContainer src={currentDisplayed} />
       <ToolBar>
-        <CustomSelect optionsToBe={apiDataTotal} onChange={setApiData} />
+        <CustomSelect optionsToBe={apiDataTotal} onChange={setCurrentDisplayed} />
+        <FavButton onClick={setFavList} currentDisplayed={currentDisplayed} currentFavList={favList} />
       </ToolBar>
     </BackgroundContainer>
   )

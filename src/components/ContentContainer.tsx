@@ -10,9 +10,7 @@ export const ContentContainer = ({ src }: { src: NasaObject | undefined }) => {
       {src.media_type === 'image' ? (
         <img src={src.hdurl} alt={''} className={'space-image'} />
       ) : (
-        <video>
-          <source src={src.url} type="video/mp4" />
-        </video>
+        <iframe src={src.url} title={'video'} className={'space-image'} style={{ width: '80%' }} />
       )}
     </div>
   )
