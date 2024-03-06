@@ -5,10 +5,12 @@ export const FavButton = ({
   onClick,
   currentDisplayed,
   currentFavList,
+  favStateSetter,
 }: {
-  onClick: (currentFav: NasaObject[]) => void
+  onClick: (currentFav: NasaObject[], stateSetter: (toSet: NasaObject[]) => void) => void
   currentDisplayed: NasaObject | undefined
   currentFavList: NasaObject[]
+  favStateSetter: (toSet: NasaObject[]) => void
 }) => {
   return (
     <button
@@ -16,7 +18,7 @@ export const FavButton = ({
         if (!currentDisplayed) {
           return
         }
-        onClick([...currentFavList, currentDisplayed])
+        onClick([...currentFavList, currentDisplayed], favStateSetter)
         console.log(currentFavList)
       }}
     >

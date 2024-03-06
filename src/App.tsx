@@ -6,6 +6,7 @@ import { NavBar } from './components/NavBar'
 import { ToolBar } from './components/tool_bar/ToolBar'
 import { CustomSelect, dropDownFormatConversion } from './components/tool_bar/CustomSelect'
 import { FavButton } from './components/tool_bar/FavButton'
+import { setToLocal } from './api/setToLocal'
 
 export type NasaObject = {
   copyright: string
@@ -51,7 +52,12 @@ export const App = () => {
       <ContentContainer src={currentDisplayed} />
       <ToolBar>
         <CustomSelect optionsToBe={apiDataTotal} onChange={setCurrentDisplayed} />
-        <FavButton onClick={setFavList} currentDisplayed={currentDisplayed} currentFavList={favList} />
+        <FavButton
+          onClick={setToLocal}
+          currentDisplayed={currentDisplayed}
+          currentFavList={favList}
+          favStateSetter={setFavList}
+        />
       </ToolBar>
     </BackgroundContainer>
   )
