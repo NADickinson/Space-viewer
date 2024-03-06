@@ -5,8 +5,6 @@ import { BackgroundContainer } from './components/BackgroundContainer'
 import { NavBar } from './components/NavBar'
 import { ToolBar } from './components/tool_bar/ToolBar'
 import { CustomSelect, dropDownFormatConversion } from './components/tool_bar/CustomSelect'
-import { FavButton } from './components/tool_bar/FavButton'
-import { setToLocal } from './api/setToLocal'
 
 export type NasaObject = {
   copyright: string
@@ -29,18 +27,15 @@ export const App = () => {
       const data = await getImageOfTheDay('')
       setCurrentDisplayed(data)
       console.log(data)
-    }
-
-    getPhoto()
-  }, [])
-
-  useEffect(() => {
-    const getPhoto = async () => {
-      const data = await getImageOfTheDay('2024-02-01')
-      setApiDataTotal(data)
-      console.log(data)
-      console.log(dropDownFormatConversion(data))
+      const data2 = await getImageOfTheDay('2024-02-01')
+      setApiDataTotal(data2)
+      console.log(data2)
+      console.log(dropDownFormatConversion(data2))
       console.log(apiDataTotal)
+      const localStorageFavs = localStorage.getItem('favs')
+      if (localStorageFavs !== null) {
+        setFavList(JSON.parse(localStorageFavs))
+      }
     }
 
     getPhoto()
@@ -52,12 +47,17 @@ export const App = () => {
       <ContentContainer src={currentDisplayed} />
       <ToolBar>
         <CustomSelect optionsToBe={apiDataTotal} onChange={setCurrentDisplayed} />
-        <FavButton
-          onClick={setToLocal}
-          currentDisplayed={currentDisplayed}
-          currentFavList={favList}
-          favStateSetter={setFavList}
-        />
+
+        <button
+          onClick={() => {
+            if (currentDisplayed) {
+              setFavList([...favList, currentDisplayed])
+              localStorage.setItem('favs', JSON.stringify([...favList, currentDisplayed]))
+            }
+          }}
+        >
+          {'Add To Favourites'}
+        </button>
       </ToolBar>
     </BackgroundContainer>
   )
