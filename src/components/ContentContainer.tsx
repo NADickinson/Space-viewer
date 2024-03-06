@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react'
+import React from 'react'
 import { NasaObject } from '../App'
 
 export const ContentContainer = ({ src }: { src: NasaObject | undefined }) => {

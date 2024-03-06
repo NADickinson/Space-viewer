@@ -1,4 +1,4 @@
-import { Dropdown, IDropdownOption } from '@fluentui/react'
+import { Dropdown } from '@fluentui/react'
 import React from 'react'
 import { NasaObject } from '../../App'
 

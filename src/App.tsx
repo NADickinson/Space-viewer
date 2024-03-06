@@ -39,6 +39,7 @@ export const App = () => {
     }
 
     getPhoto()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
@@ -62,6 +63,3 @@ export const App = () => {
     </BackgroundContainer>
   )
 }
-
-//'React' refers to a UMD global, but the current file is a module. Consider adding an import instead.ts(2686)
-//i never have to import react normally?
