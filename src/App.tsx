@@ -5,6 +5,7 @@ import { BackgroundContainer } from './components/BackgroundContainer'
 import { NavBar } from './components/NavBar'
 import { ToolBar } from './components/tool_bar/ToolBar'
 import { CustomSelect, dropDownFormatConversion } from './components/tool_bar/CustomSelect'
+import { CustomButton } from './components/tool_bar/CustomButton'
 
 export type NasaObject = {
   copyright: string
@@ -48,17 +49,15 @@ export const App = () => {
       <ContentContainer src={currentDisplayed} />
       <ToolBar>
         <CustomSelect optionsToBe={apiDataTotal} onChange={setCurrentDisplayed} />
-
-        <button
+        <CustomButton
           onClick={() => {
             if (currentDisplayed) {
               setFavList([...favList, currentDisplayed])
               localStorage.setItem('favs', JSON.stringify([...favList, currentDisplayed]))
+              console.log(favList)
             }
           }}
-        >
-          {'Add To Favourites'}
-        </button>
+        ></CustomButton>
       </ToolBar>
     </BackgroundContainer>
   )
