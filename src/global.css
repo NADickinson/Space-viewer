@@ -53,6 +53,7 @@ body {
 .nav-bar {
   height: 60px;
   background-color: blue;
+  display: flex;
 }
 
 .tool-bar {

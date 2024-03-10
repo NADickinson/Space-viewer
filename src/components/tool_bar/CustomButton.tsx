@@ -1,7 +1,7 @@
 import { PrimaryButton } from '@fluentui/react'
 import React from 'react'
 
-export const CustomButton = ({ onClick }: { onClick: () => void }) => {
+export const CustomButton = ({ onClick, text }: { onClick: () => void; text: string }) => {
   return (
     <PrimaryButton
       styles={{
@@ -17,7 +17,7 @@ export const CustomButton = ({ onClick }: { onClick: () => void }) => {
       }}
       onClick={onClick}
     >
-      {'Add To Favourites'}
+      {text}
     </PrimaryButton>
   )
 }

@@ -4,8 +4,9 @@ import { ContentContainer } from './components/ContentContainer'
 import { BackgroundContainer } from './components/BackgroundContainer'
 import { NavBar } from './components/NavBar'
 import { ToolBar } from './components/tool_bar/ToolBar'
-import { CustomSelect, dropDownFormatConversion } from './components/tool_bar/CustomSelect'
+import { CustomSelect, CustomSelect1, dropDownFormatConversion } from './components/tool_bar/CustomSelect'
 import { CustomButton } from './components/tool_bar/CustomButton'
+import { FavListSelect } from './components/tool_bar/FavListSelect'
 
 export type NasaObject = {
   copyright: string
@@ -48,8 +49,18 @@ export const App = () => {
       <NavBar />
       <ContentContainer src={currentDisplayed} />
       <ToolBar>
-        <CustomSelect optionsToBe={apiDataTotal} onChange={setCurrentDisplayed} />
+        <CustomSelect1
+          options={apiDataTotal}
+          toId={option => {
+            return option.date
+          }}
+          toText={option => {
+            return option.title
+          }}
+          onChange={setCurrentDisplayed}
+        />
         <CustomButton
+          text={'Add To Favourites'}
           onClick={() => {
             if (currentDisplayed) {
               setFavList([...favList, currentDisplayed])
