@@ -4,7 +4,7 @@ import { ContentContainer } from './components/ContentContainer'
 import { BackgroundContainer } from './components/BackgroundContainer'
 import { NavBar } from './components/NavBar'
 import { ToolBar } from './components/tool_bar/ToolBar'
-import { CustomSelect, CustomSelect1, dropDownFormatConversion } from './components/tool_bar/CustomSelect'
+import { CustomSelect1, dropDownFormatConversion } from './components/tool_bar/CustomSelect'
 import { CustomButton } from './components/tool_bar/CustomButton'
 import { FavListSelect } from './components/tool_bar/FavListSelect'
 
@@ -23,7 +23,7 @@ export const App = () => {
   const [currentDisplayed, setCurrentDisplayed] = useState<NasaObject>()
   const [apiDataTotal, setApiDataTotal] = useState<NasaObject[]>([])
   const [favList, setFavList] = useState<NasaObject[]>([])
-
+  const [customiseMenuDisplayed, setCustomiseMenuDisplayed] = useState(false)
   useEffect(() => {
     const getPhoto = async () => {
       const data = await getImageOfTheDay('')
@@ -46,7 +46,23 @@ export const App = () => {
 
   return (
     <BackgroundContainer>
-      <NavBar />
+      <NavBar>
+        <div style={{ flex: 1 }}></div>
+        <CustomButton
+          text={'Customise'}
+          onClick={() => {
+            setCustomiseMenuDisplayed(!customiseMenuDisplayed)
+          }}
+          passedStyles={{
+            root: {
+              backgroundColor: '#CEABD8',
+              borderColor: '#B681C5',
+              fontSize: '1.2rem',
+              justifySelf: 'flex-end',
+            },
+          }}
+        />
+      </NavBar>
       <ContentContainer src={currentDisplayed} />
       <ToolBar>
         <CustomSelect1
@@ -68,7 +84,14 @@ export const App = () => {
               console.log(favList)
             }
           }}
-        ></CustomButton>
+          passedStyles={{
+            root: {
+              backgroundColor: '#CEABD8',
+              borderColor: '#B681C5',
+              fontSize: '1.2rem',
+            },
+          }}
+        />
       </ToolBar>
     </BackgroundContainer>
   )

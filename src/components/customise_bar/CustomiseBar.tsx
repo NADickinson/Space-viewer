@@ -1,5 +1,5 @@
 import React from 'react'
 
-export const CustomizeBar = () => {
+export const CustomiseBar = () => {
   return <div className="CustomizeBar"></div>
 }
