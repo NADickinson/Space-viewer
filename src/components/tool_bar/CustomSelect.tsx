@@ -2,13 +2,7 @@ import { Dropdown, IDropdownOption } from '@fluentui/react'
 import React from 'react'
 import { NasaObject } from '../../App'
 
-export const dropDownFormatConversion = (objArray: NasaObject[]) => {
-  return objArray.map(item => {
-    return { key: item.date, text: item.title }
-  })
-}
-
-export const CustomSelect1 = <Toption extends unknown>({
+export const CustomSelect = <Toption extends unknown>({
   options,
   toId,
   toText,
@@ -29,31 +23,7 @@ export const CustomSelect1 = <Toption extends unknown>({
         const key = option?.key
         if (typeof key !== 'string') return
         const selected = options.find(option => toId(option) === key)
-        if (selected) onChange(selected)
-      }}
-    ></Dropdown>
-  )
-}
-
-export const CustomSelect = ({
-  optionsToBe,
-  onChange,
-}: {
-  optionsToBe: NasaObject[]
-  onChange: (option: NasaObject) => void
-}) => {
-  return (
-    <Dropdown
-      options={dropDownFormatConversion(optionsToBe)}
-      placeholder="Select an option"
-      onChange={(event, o) => {
-        if (!o) {
-          return
-        }
-        let selected = optionsToBe.filter(obj => {
-          return obj.date === o.key
-        })
-        onChange(selected[0])
+        if (selected !== undefined) onChange(selected)
       }}
     ></Dropdown>
   )

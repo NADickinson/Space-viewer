@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { ReactNode } from 'react'
 import { NasaObject } from '../App'
 
-export const ContentContainer = ({ src }: { src: NasaObject | undefined }) => {
+export const ContentContainer = ({ src, children }: { src: NasaObject | undefined; children: ReactNode }) => {
   if (!src) {
     return
   }
@@ -12,6 +12,7 @@ export const ContentContainer = ({ src }: { src: NasaObject | undefined }) => {
       ) : (
         <iframe src={src.url} title={'video'} className={'space-image'} style={{ width: '80%' }} />
       )}
+      {children}
     </div>
   )
 }
