@@ -74,3 +74,11 @@ body {
   justify-content: center;
   flex-wrap: wrap;
 }
+
+.currentDescription {
+  position: absolute;
+  background-color: aqua;
+  height: 100%;
+  width: 100%;
+  z-index: 999;
+}

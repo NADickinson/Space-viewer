@@ -1,24 +1,25 @@
 import { Dropdown, IDropdownOption } from '@fluentui/react'
 import React from 'react'
-import { NasaObject } from '../../App'
 
 export const CustomSelect = <Toption extends unknown>({
   options,
   toId,
   toText,
   onChange,
+  placeHolder,
 }: {
   options: Toption[]
   toId: (option: Toption) => string
   toText: (option: Toption) => string
   onChange: (option: Toption) => void
+  placeHolder: string
 }) => {
   return (
     <Dropdown
       options={options.map(option => {
         return { key: toId(option), text: toText(option) }
       })}
-      placeholder="Select an option"
+      placeholder={placeHolder}
       onChange={(_, option: IDropdownOption | undefined) => {
         const key = option?.key
         if (typeof key !== 'string') return

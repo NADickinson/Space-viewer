@@ -9,9 +9,10 @@ import { CustomButton } from './components/tool_bar/CustomButton'
 import { FavListSelect } from './components/tool_bar/FavListSelect'
 import { CustomiseBar } from './components/customise_bar/CustomiseBar'
 import { months, monthsForDropDown, yearsForDropDown } from './api/dateFunction'
+import { getRandomImage } from './api/getRandomImage'
 
 export type NasaObject = {
-  copyright: string
+  copyright?: string
   date: string
   explanation: string
   hdurl: string
@@ -28,6 +29,7 @@ export const App = () => {
   const [customiseMenuDisplayed, setCustomiseMenuDisplayed] = useState(false)
   const [currentYear, setCurrentYear] = useState(new Date().getFullYear())
   const [currentMonth, setCurentMonth] = useState(new Date().getMonth())
+  const [isDescriptionDisplayed, setIsDescriptionDisplayed] = useState(false)
   useEffect(() => {
     const getPhoto = async () => {
       const data = await getImageOfTheDay('')
@@ -55,10 +57,6 @@ export const App = () => {
     conditionallySetDropdownForImageSelect()
   }, [currentYear, currentMonth])
 
-  useEffect(() => {
-    console.log(currentMonth, currentYear)
-  }, [currentMonth, currentYear])
-
   return (
     <BackgroundContainer>
       <NavBar>
@@ -79,7 +77,7 @@ export const App = () => {
         />
       </NavBar>
 
-      <ContentContainer src={currentDisplayed}>
+      <ContentContainer src={currentDisplayed} isDescriptionDisplayed={isDescriptionDisplayed}>
         {customiseMenuDisplayed ? (
           <CustomiseBar>
             <div>{'!!!!!!!!!!'}</div>
@@ -97,6 +95,7 @@ export const App = () => {
             return option.toString()
           }}
           onChange={setCurrentYear}
+          placeHolder="Select Year"
         />
         <CustomSelect
           options={monthsForDropDown(currentYear)}
@@ -109,6 +108,7 @@ export const App = () => {
           onChange={option => {
             setCurentMonth(option)
           }}
+          placeHolder="Select Month"
         />
         <CustomSelect
           options={apiDataTotal}
@@ -119,6 +119,7 @@ export const App = () => {
             return option.title
           }}
           onChange={setCurrentDisplayed}
+          placeHolder="Select Your Image"
         />
         <CustomButton
           text={'Add To Favourites'}
@@ -135,6 +136,19 @@ export const App = () => {
               borderColor: '#B681C5',
               fontSize: '1.2rem',
             },
+          }}
+        />
+        <CustomButton
+          text={'See Random Image'}
+          onClick={async () => {
+            const data = await getRandomImage()
+            setCurrentDisplayed(data)
+          }}
+        />
+        <CustomButton
+          text={'See Description'}
+          onClick={() => {
+            setIsDescriptionDisplayed(!isDescriptionDisplayed)
           }}
         />
       </ToolBar>
