@@ -6,45 +6,62 @@ import { NavBar } from './components/NavBar'
 import { ToolBar } from './components/tool_bar/ToolBar'
 import { CustomSelect } from './components/tool_bar/CustomSelect'
 import { CustomButton } from './components/tool_bar/CustomButton'
-import { FavListSelect } from './components/tool_bar/FavListSelect'
 import { CustomiseBar } from './components/customise_bar/CustomiseBar'
 import { months, monthsForDropDown, yearsForDropDown } from './api/dateFunction'
 import { getRandomImage } from './api/getRandomImage'
+import { isPlaylist, loadPlaylists, updatePlaylist } from './api/loadPlaylists'
+import { isArrayOf } from 'ts-guardian'
 
 export type NasaObject = {
   copyright?: string
   date: string
-  explanation: string
-  hdurl: string
-  media_type: string
-  service_version: string
+  explanation?: string
+  hdurl?: string
+  media_type?: string
+  service_version?: string
   title: string
-  url: string
+  url?: string
 }
+
+export type PlayList = { name: string; id: string; list: NasaObject[] }
 
 export const App = () => {
   const [currentDisplayed, setCurrentDisplayed] = useState<NasaObject>()
   const [apiDataTotal, setApiDataTotal] = useState<NasaObject[]>([])
-  const [favList, setFavList] = useState<NasaObject[]>([])
+  const [favList, setFavList] = useState<PlayList>()
   const [customiseMenuDisplayed, setCustomiseMenuDisplayed] = useState(false)
   const [currentYear, setCurrentYear] = useState(new Date().getFullYear())
   const [currentMonth, setCurentMonth] = useState(new Date().getMonth())
   const [isDescriptionDisplayed, setIsDescriptionDisplayed] = useState(false)
+  const [playLists, setPlayLists] = useState<PlayList[]>()
+  const [currentPlayList, setCurrentPlayList] = useState<PlayList>()
+
   useEffect(() => {
     const getPhoto = async () => {
       const data = await getImageOfTheDay('')
-      setCurrentDisplayed(data)
-      console.log(data)
+      if (data === undefined) {
+        return
+      }
+      setCurrentDisplayed(data[0])
       const data2 = await getImageOfTheDay(`${currentYear}-${currentMonth + 1}-01`)
+      if (data2 === undefined) {
+        return
+      }
       setApiDataTotal(data2)
-      console.log(data2)
-      console.log(apiDataTotal)
-      const localStorageFavs = localStorage.getItem('favs')
-      if (localStorageFavs !== null) {
-        setFavList(JSON.parse(localStorageFavs))
+      const loadedPlaylists = loadPlaylists()
+      if (isArrayOf(isPlaylist)(loadedPlaylists)) {
+        setPlayLists(loadedPlaylists)
+        setFavList(
+          loadedPlaylists.find(playlist => {
+            return playlist.name === 'Favourites'
+          })
+        )
+
+        if (favList) {
+          setCurrentPlayList(favList)
+        }
       }
     }
-    console.log(currentYear, currentMonth)
     getPhoto()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
@@ -52,6 +69,9 @@ export const App = () => {
   useEffect(() => {
     const conditionallySetDropdownForImageSelect = async () => {
       const data = await getImageOfTheDay(`${currentYear}-${currentMonth + 1}-01`)
+      if (data === undefined) {
+        return
+      }
       setApiDataTotal(data)
     }
     conditionallySetDropdownForImageSelect()
@@ -81,7 +101,7 @@ export const App = () => {
         {customiseMenuDisplayed ? (
           <CustomiseBar>
             <div>{'!!!!!!!!!!'}</div>
-            <FavListSelect favList={favList} />
+            {/* <FavListSelect favList={favList} /> */}
           </CustomiseBar>
         ) : undefined}
       </ContentContainer>
@@ -122,22 +142,32 @@ export const App = () => {
           placeHolder="Select Your Image"
         />
         <CustomButton
-          text={'Add To Favourites'}
+          text={'Add To Selected Playlist'}
           onClick={() => {
-            if (currentDisplayed) {
-              setFavList([...favList, currentDisplayed])
-              localStorage.setItem('favs', JSON.stringify([...favList, currentDisplayed]))
-              console.log(favList)
+            if (!currentDisplayed) {
+              return
+            } else {
+              if (currentPlayList) {
+                const newCurrent = { ...currentPlayList, list: [...currentPlayList.list, currentDisplayed] }
+                setCurrentPlayList(newCurrent)
+                updatePlaylist(newCurrent)
+              }
             }
           }}
-          passedStyles={{
-            root: {
-              backgroundColor: '#CEABD8',
-              borderColor: '#B681C5',
-              fontSize: '1.2rem',
-            },
-          }}
         />
+        {playLists ? (
+          <CustomSelect
+            options={playLists}
+            toId={option => {
+              return option.name
+            }}
+            toText={option => {
+              return option.name
+            }}
+            onChange={setCurrentPlayList}
+            placeHolder={'Currently Selected Playlist'}
+          />
+        ) : undefined}
         <CustomButton
           text={'See Random Image'}
           onClick={async () => {

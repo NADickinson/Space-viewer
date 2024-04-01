@@ -8,34 +8,27 @@ export const getImageOfTheDay = async (date: string) => {
       throw new Error('response error')
     }
 
-    const data = await response.json()
+    const data = (await response.json()) as unknown
     console.log(data)
-    // const isNasaObject = is({
-    //   copyright: is('string').or('undefined'),
-    //   date: 'string',
-    //   explanation: 'string',
-    //   hdurl: 'string',
-    //   media_type: 'string',
-    //   service_version: 'string',
-    //   title: 'string',
-    //   url: 'string',
-    // })
-    // if (Array.isArray(data)) {
-    //   if (data.length === 0) {
-    //     return
-    //   }
-    //   const x = data.filter(obj => {
-    //     if (isNasaObject(obj)) {
-    //       return isNasaObject(obj)
-    //     }
-    //   })
+    const isNasaObject = is({
+      copyright: is('string').or('undefined'),
+      date: is('string'),
+      explanation: is('string').or('undefined'),
+      hdurl: is('string').or('undefined'),
+      media_type: is('string').or('undefined'),
+      service_version: is('string').or('undefined'),
+      title: is('string'),
+      url: is('string').or('undefined'),
+    })
 
-    //   const y = isArrayOf(isNasaObject)
-    //   if (y(data)) {
-
-    //   }
-    // }
-    return data
+    if (Array.isArray(data)) {
+      if (data.length === 0) {
+        return
+      }
+      if (isArrayOf(isNasaObject)(data)) {
+        return data
+      }
+    } else if (isNasaObject(data)) return [data]
   } catch (err) {
     console.log(err)
   }

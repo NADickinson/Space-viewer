@@ -16,7 +16,9 @@ export const ContentContainer = ({
   }
   return (
     <div className={'image-container'}>
-      {isDescriptionDisplayed ? <CurrentDescription description={src?.explanation} /> : undefined}
+      {isDescriptionDisplayed ? (
+        <CurrentDescription description={src?.explanation + ' Date of this image: ' + src.date} />
+      ) : undefined}
       {src.media_type === 'image' ? (
         <img src={src.hdurl} alt={''} className={'space-image'} />
       ) : (
