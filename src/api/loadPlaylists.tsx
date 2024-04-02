@@ -26,15 +26,15 @@ export const loadPlaylists = () => {
   }
 }
 
-export const updatePlaylist = (playlistToUpdate: PlayList) => {
+export const updateOrAddPlaylist = (playlistToUpdate: PlayList) => {
   const loadedPlaylists = loadPlaylists()
 
   if (isArrayOf(isPlaylist)(loadedPlaylists)) {
     const oldPlaylist = loadedPlaylists.find(playlist => {
       return playlist.id === playlistToUpdate.id
     })
-    if (oldPlaylist === undefined) {
-      return
+    if (oldPlaylist === undefined && isPlaylist(playlistToUpdate)) {
+      localStorage.setItem('Playlists', JSON.stringify([...loadedPlaylists, playlistToUpdate]))
     }
     const updatedPlaylist = { ...oldPlaylist, ...playlistToUpdate }
     const allButNewPlaylists = loadedPlaylists.filter(playlist => {

@@ -9,8 +9,9 @@ import { CustomButton } from './components/tool_bar/CustomButton'
 import { CustomiseBar } from './components/customise_bar/CustomiseBar'
 import { months, monthsForDropDown, yearsForDropDown } from './api/dateFunction'
 import { getRandomImage } from './api/getRandomImage'
-import { isPlaylist, loadPlaylists, updatePlaylist } from './api/loadPlaylists'
+import { isPlaylist, loadPlaylists, updateOrAddPlaylist } from './api/loadPlaylists'
 import { isArrayOf } from 'ts-guardian'
+import { AddNewPlaylistForm } from './components/customise_bar/AddNewPlaylistForm'
 
 export type NasaObject = {
   copyright?: string
@@ -101,7 +102,7 @@ export const App = () => {
         {customiseMenuDisplayed ? (
           <CustomiseBar>
             <div>{'!!!!!!!!!!'}</div>
-            {/* <FavListSelect favList={favList} /> */}
+            <AddNewPlaylistForm setPlaylists={setPlayLists} />
           </CustomiseBar>
         ) : undefined}
       </ContentContainer>
@@ -150,7 +151,7 @@ export const App = () => {
               if (currentPlayList) {
                 const newCurrent = { ...currentPlayList, list: [...currentPlayList.list, currentDisplayed] }
                 setCurrentPlayList(newCurrent)
-                updatePlaylist(newCurrent)
+                updateOrAddPlaylist(newCurrent)
               }
             }
           }}
