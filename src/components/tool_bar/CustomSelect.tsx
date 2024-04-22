@@ -7,12 +7,14 @@ export const CustomSelect = <Toption extends unknown>({
   toText,
   onChange,
   placeHolder,
+  disabled,
 }: {
   options: Toption[]
   toId: (option: Toption) => string
   toText: (option: Toption) => string
   onChange: (option: Toption) => void
   placeHolder: string
+  disabled?: boolean
 }) => {
   return (
     <Dropdown
@@ -20,6 +22,7 @@ export const CustomSelect = <Toption extends unknown>({
         return { key: toId(option), text: toText(option) }
       })}
       placeholder={placeHolder}
+      disabled={disabled}
       onChange={(_, option: IDropdownOption | undefined) => {
         const key = option?.key
         if (typeof key !== 'string') return

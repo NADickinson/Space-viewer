@@ -12,6 +12,7 @@ import { getRandomImage } from './api/getRandomImage'
 import { isPlaylist, loadPlaylists, updateOrAddPlaylist } from './api/loadPlaylists'
 import { isArrayOf } from 'ts-guardian'
 import { AddNewPlaylistForm } from './components/customise_bar/AddNewPlaylistForm'
+import { EditPlaylistBox } from './components/customise_bar/EditPlaylistBox'
 
 export type NasaObject = {
   copyright?: string
@@ -36,6 +37,7 @@ export const App = () => {
   const [isDescriptionDisplayed, setIsDescriptionDisplayed] = useState(false)
   const [playLists, setPlayLists] = useState<PlayList[]>()
   const [currentPlayList, setCurrentPlayList] = useState<PlayList>()
+  const [playListToEdit, setPlayListToEdit] = useState<PlayList>()
 
   useEffect(() => {
     const getPhoto = async () => {
@@ -103,6 +105,22 @@ export const App = () => {
           <CustomiseBar>
             <div>{'!!!!!!!!!!'}</div>
             <AddNewPlaylistForm setPlaylists={setPlayLists} />
+            {playLists ? (
+              <CustomSelect
+                options={playLists}
+                toId={option => {
+                  return option.id
+                }}
+                toText={option => {
+                  return option.name
+                }}
+                placeHolder={'Select Your PlayList To Edit'}
+                onChange={setPlayListToEdit}
+              />
+            ) : undefined}
+            {playListToEdit && playLists ? (
+              <EditPlaylistBox playListToEdit={playListToEdit} playLists={playLists} setPlayLists={setPlayLists} />
+            ) : undefined}
           </CustomiseBar>
         ) : undefined}
       </ContentContainer>
@@ -152,6 +170,9 @@ export const App = () => {
                 const newCurrent = { ...currentPlayList, list: [...currentPlayList.list, currentDisplayed] }
                 setCurrentPlayList(newCurrent)
                 updateOrAddPlaylist(newCurrent)
+                if (playListToEdit) {
+                  setPlayListToEdit(newCurrent)
+                }
               }
             }
           }}
@@ -160,7 +181,7 @@ export const App = () => {
           <CustomSelect
             options={playLists}
             toId={option => {
-              return option.name
+              return option.id
             }}
             toText={option => {
               return option.name

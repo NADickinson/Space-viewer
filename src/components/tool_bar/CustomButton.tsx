@@ -7,7 +7,7 @@ export const CustomButton = ({
   passedStyles,
 }: {
   onClick: () => void
-  text: string
+  text?: string
   passedStyles?: IButtonStyles
 }) => {
   return (
