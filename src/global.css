@@ -63,6 +63,7 @@ body {
   background-color: blueviolet;
   z-index: 1000;
   right: 0;
+  overflow: scroll;
 }
 
 .tool-bar {

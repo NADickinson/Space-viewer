@@ -17,11 +17,15 @@ export const loadPlaylists = () => {
   const retrievedPlaylists = localStorage.getItem('Playlists')
   if (retrievedPlaylists === null || isArrayOf(isPlaylist)(JSON.parse(retrievedPlaylists)) === false) {
     localStorage.setItem('Playlists', JSON.stringify([{ name: 'Favourites', id: crypto.randomUUID(), list: [] }]))
-    const retrievedWithFavs = JSON.parse(localStorage.get('Playlists'))
-    if (isArrayOf(isPlaylist)(retrievedWithFavs)) {
-      return retrievedWithFavs
+    const toParse = localStorage.getItem('Playlists')
+    if (typeof toParse === 'string') {
+      const retrievedWithFavs = JSON.parse(toParse)
+      if (isArrayOf(isPlaylist)(retrievedWithFavs)) {
+        return retrievedWithFavs
+      }
     }
-  } else {
+  }
+  if (retrievedPlaylists !== null) {
     return JSON.parse(retrievedPlaylists)
   }
 }
@@ -32,6 +36,11 @@ export const updateOrAddPlaylist = (playlistToUpdate: PlayList) => {
   if (isArrayOf(isPlaylist)(loadedPlaylists)) {
     const oldPlaylist = loadedPlaylists.find(playlist => {
       return playlist.id === playlistToUpdate.id
+    })
+    const oldPlaylistIndex = loadedPlaylists.findIndex(playList => {
+      if (oldPlaylist !== undefined) {
+        return playList.id === oldPlaylist.id
+      }
     })
     if (oldPlaylist === undefined && isPlaylist(playlistToUpdate)) {
       localStorage.setItem('Playlists', JSON.stringify([...loadedPlaylists, playlistToUpdate]))
