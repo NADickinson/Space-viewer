@@ -2,6 +2,7 @@ import React, { Children, ReactNode, useEffect, useState } from 'react'
 import { NasaObject, PlayList } from '../../App'
 import { CustomButton } from '../tool_bar/CustomButton'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
+import { updateOrAddPlaylist } from '../../api/loadPlaylists'
 
 export const EditPlaylistBox = ({
   playListToEdit,
@@ -32,6 +33,7 @@ export const EditPlaylistBox = ({
         newArr.splice(oldPlayListIndex, 1, currentNewOrder)
         console.log(oldPlayListIndex, currentNewOrder)
         setPlayLists(newArr)
+        updateOrAddPlaylist(currentNewOrder)
       }}
     >
       <Droppable droppableId={'playlist_items'}>
@@ -48,7 +50,25 @@ export const EditPlaylistBox = ({
                     {provided => {
                       return (
                         <div {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef}>
-                          <CustomIndividualItems item={nasaObject} />
+                          <CustomIndividualItems
+                            item={nasaObject}
+                            removeFromPlaylist={() => {
+                              const result = {
+                                ...newOrderOfPlaylist,
+                                list: newOrderOfPlaylist.list.filter(obj => {
+                                  return obj !== nasaObject
+                                }),
+                              }
+                              setNewOrderOfPlaylist(result)
+                              const editedPlaylistIndex = playLists.findIndex(playList => {
+                                return playList.id === result.id
+                              })
+                              const newPlaylists = [...playLists]
+                              newPlaylists[editedPlaylistIndex] = result
+                              setPlayLists(newPlaylists)
+                              updateOrAddPlaylist(result)
+                            }}
+                          />
                         </div>
                       )
                     }}
@@ -64,10 +84,10 @@ export const EditPlaylistBox = ({
   )
 }
 
-const CustomIndividualItems = ({ item }: { item: NasaObject }) => {
+const CustomIndividualItems = ({ item, removeFromPlaylist }: { item: NasaObject; removeFromPlaylist: () => void }) => {
   return (
     <div>
-      {item.title} <CustomButton onClick={() => {}} />
+      {item.title} <CustomButton onClick={removeFromPlaylist} />
     </div>
   )
 }

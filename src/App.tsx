@@ -15,14 +15,14 @@ import { AddNewPlaylistForm } from './components/customise_bar/AddNewPlaylistFor
 import { EditPlaylistBox } from './components/customise_bar/EditPlaylistBox'
 
 export type NasaObject = {
-  copyright?: string
+  copyright: string | undefined
   date: string
-  explanation?: string
-  hdurl?: string
-  media_type?: string
-  service_version?: string
+  explanation: string | undefined
+  hdurl: string | undefined
+  media_type: string | undefined
+  service_version: string | undefined
   title: string
-  url?: string
+  url: string | undefined
 }
 
 export type PlayList = { name: string; id: string; list: NasaObject[] }
