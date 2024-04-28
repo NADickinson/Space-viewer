@@ -9,7 +9,7 @@ import { CustomButton } from './components/tool_bar/CustomButton'
 import { CustomiseBar } from './components/customise_bar/CustomiseBar'
 import { months, monthsForDropDown, yearsForDropDown } from './api/dateFunction'
 import { getRandomImage } from './api/getRandomImage'
-import { isPlaylist, loadPlaylists, updateOrAddPlaylist } from './api/loadPlaylists'
+import { deletePlaylist, isPlaylist, loadPlaylists, updateOrAddPlaylist } from './api/loadPlaylists'
 import { isArrayOf } from 'ts-guardian'
 import { AddNewPlaylistForm } from './components/customise_bar/AddNewPlaylistForm'
 import { EditPlaylistBox } from './components/customise_bar/EditPlaylistBox'
@@ -70,6 +70,10 @@ export const App = () => {
   }, [])
 
   useEffect(() => {
+    setPlayLists(loadPlaylists())
+  }, [playListToEdit, currentPlayList])
+
+  useEffect(() => {
     const conditionallySetDropdownForImageSelect = async () => {
       const data = await getImageOfTheDay(`${currentYear}-${currentMonth + 1}-01`)
       if (data === undefined) {
@@ -114,12 +118,22 @@ export const App = () => {
                 toText={option => {
                   return option.name
                 }}
-                placeHolder={'Select Your PlayList To Edit'}
+                placeHolder={playListToEdit ? playListToEdit.toString() : 'Select Your PlayList To Edit'}
                 onChange={setPlayListToEdit}
               />
             ) : undefined}
             {playListToEdit && playLists ? (
               <EditPlaylistBox playListToEdit={playListToEdit} playLists={playLists} setPlayLists={setPlayLists} />
+            ) : undefined}
+
+            {playListToEdit ? (
+              <CustomButton
+                text={'Delete Selected Playlist'}
+                onClick={() => {
+                  deletePlaylist(playListToEdit)
+                  setPlayLists(loadPlaylists())
+                }}
+              />
             ) : undefined}
           </CustomiseBar>
         ) : undefined}
