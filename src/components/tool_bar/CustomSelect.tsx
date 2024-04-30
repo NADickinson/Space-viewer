@@ -23,6 +23,7 @@ export const CustomSelect = <Toption extends unknown>({
       })}
       placeholder={placeHolder}
       disabled={disabled}
+      selectedKey={undefined}
       onChange={(_, option: IDropdownOption | undefined) => {
         const key = option?.key
         if (typeof key !== 'string') return

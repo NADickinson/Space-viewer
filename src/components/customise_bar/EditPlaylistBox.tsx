@@ -55,8 +55,8 @@ export const EditPlaylistBox = ({
                             removeFromPlaylist={() => {
                               const result = {
                                 ...newOrderOfPlaylist,
-                                list: newOrderOfPlaylist.list.filter(obj => {
-                                  return obj !== nasaObject
+                                list: newOrderOfPlaylist.list.filter((_, i) => {
+                                  return i !== index
                                 }),
                               }
                               setNewOrderOfPlaylist(result)
