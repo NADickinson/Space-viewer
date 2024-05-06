@@ -2,7 +2,7 @@ import React, { Children, ReactNode, useEffect, useState } from 'react'
 import { NasaObject, PlayList } from '../../App'
 import { CustomButton } from '../tool_bar/CustomButton'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
-import { updateOrAddPlaylist } from '../../api/loadPlaylists'
+import { updateOrAddPlaylist } from '../../api/playlistFunctions'
 
 export const EditPlaylistBox = ({
   playListToEdit,

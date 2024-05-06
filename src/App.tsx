@@ -9,7 +9,13 @@ import { CustomButton } from './components/tool_bar/CustomButton'
 import { CustomiseBar } from './components/customise_bar/CustomiseBar'
 import { months, monthsForDropDown, yearsForDropDown } from './api/dateFunction'
 import { getRandomImage } from './api/getRandomImage'
-import { deletePlaylist, isPlaylist, loadPlaylists, updateOrAddPlaylist } from './api/loadPlaylists'
+import {
+  deletePlaylist,
+  getPlaylistFromId,
+  isPlaylist,
+  loadPlaylists,
+  updateOrAddPlaylist,
+} from './api/playlistFunctions'
 import { isArrayOf } from 'ts-guardian'
 import { AddNewPlaylistForm } from './components/customise_bar/AddNewPlaylistForm'
 import { EditPlaylistBox } from './components/customise_bar/EditPlaylistBox'
@@ -36,9 +42,7 @@ export const App = () => {
   const [currentMonth, setCurentMonth] = useState(new Date().getMonth())
   const [isDescriptionDisplayed, setIsDescriptionDisplayed] = useState(false)
   const [playLists, setPlayLists] = useState<PlayList[]>()
-  const [currentPlayList, setCurrentPlayList] = useState<PlayList>()
-  const [playListToEdit, setPlayListToEdit] = useState<PlayList>()
-  const [selectedId, setSelectedId] = useState('')
+  const [selectedId, setSelectedId] = useState<string>()
 
   useEffect(() => {
     const getPhoto = async () => {
@@ -60,19 +64,11 @@ export const App = () => {
             return playlist.name === 'Favourites'
           })
         )
-
-        if (favList) {
-          setCurrentPlayList(favList)
-        }
       }
     }
     getPhoto()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-
-  useEffect(() => {
-    setPlayLists(loadPlaylists())
-  }, [playListToEdit, currentPlayList])
 
   useEffect(() => {
     const conditionallySetDropdownForImageSelect = async () => {
@@ -84,6 +80,8 @@ export const App = () => {
     }
     conditionallySetDropdownForImageSelect()
   }, [currentYear, currentMonth])
+
+  const selectedPlaylist = selectedId && playLists ? getPlaylistFromId(selectedId, playLists) : undefined
 
   return (
     <BackgroundContainer>
@@ -119,22 +117,25 @@ export const App = () => {
                 toText={option => {
                   return option.name
                 }}
-                placeHolder={playListToEdit ? playListToEdit.toString() : 'Select Your PlayList To Edit'}
-                onChange={setPlayListToEdit}
+                placeHolder={selectedPlaylist ? selectedPlaylist?.name : 'Select Your PlayList To Edit'}
+                onChange={opt => {
+                  setSelectedId(opt.id)
+                }}
               />
             ) : undefined}
-            {playListToEdit && playLists ? (
-              <EditPlaylistBox playListToEdit={playListToEdit} playLists={playLists} setPlayLists={setPlayLists} />
+            {/* {my var to change and sort }  */}
+            {selectedPlaylist && playLists ? (
+              <EditPlaylistBox playListToEdit={selectedPlaylist} playLists={playLists} setPlayLists={setPlayLists} />
             ) : undefined}
 
-            {playListToEdit ? (
+            {selectedPlaylist ? (
               <CustomButton
                 text={'Delete Selected Playlist'}
                 onClick={() => {
-                  deletePlaylist(playListToEdit)
+                  deletePlaylist(selectedPlaylist)
                   setPlayLists(loadPlaylists())
-                  if (!playLists?.includes(playListToEdit)) {
-                    setPlayListToEdit(undefined)
+                  if (!playLists?.includes(selectedPlaylist)) {
+                    setSelectedId(undefined)
                   }
                 }}
               />
@@ -184,13 +185,11 @@ export const App = () => {
             if (!currentDisplayed) {
               return
             } else {
-              if (currentPlayList) {
-                const newCurrent = { ...currentPlayList, list: [...currentPlayList.list, currentDisplayed] }
-                setCurrentPlayList(newCurrent)
+              if (selectedPlaylist) {
+                const newCurrent = { ...selectedPlaylist, list: [...selectedPlaylist.list, currentDisplayed] }
                 updateOrAddPlaylist(newCurrent)
-                if (playListToEdit) {
-                  setPlayListToEdit(newCurrent)
-                }
+                const loadedPlaylists = loadPlaylists()
+                setPlayLists(loadedPlaylists)
               }
             }
           }}
@@ -204,7 +203,9 @@ export const App = () => {
             toText={option => {
               return option.name
             }}
-            onChange={setCurrentPlayList}
+            onChange={opt => {
+              setSelectedId(opt.id)
+            }}
             placeHolder={'Currently Selected Playlist'}
           />
         ) : undefined}

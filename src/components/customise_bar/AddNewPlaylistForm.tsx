@@ -1,7 +1,7 @@
 import React, { useRef } from 'react'
 import { CustomButton } from '../tool_bar/CustomButton'
 import { PlayList } from '../../App'
-import { loadPlaylists, updateOrAddPlaylist } from '../../api/loadPlaylists'
+import { loadPlaylists, updateOrAddPlaylist } from '../../api/playlistFunctions'
 
 export const AddNewPlaylistForm = ({ setPlaylists }: { setPlaylists: (playlistsArr: PlayList[]) => void }) => {
   const inputVal = useRef<string>()
