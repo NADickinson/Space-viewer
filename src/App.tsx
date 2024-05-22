@@ -19,6 +19,8 @@ import {
 import { isArrayOf } from 'ts-guardian'
 import { AddNewPlaylistForm } from './components/customise_bar/AddNewPlaylistForm'
 import { EditPlaylistBox } from './components/customise_bar/EditPlaylistBox'
+import { FullScreenDisplay } from './components/full_screen/FullScreen'
+import { SetAnimationAndTimeForm } from './components/customise_bar/SetAnimationAndTimeForm'
 
 export type NasaObject = {
   copyright: string | undefined
@@ -43,6 +45,9 @@ export const App = () => {
   const [isDescriptionDisplayed, setIsDescriptionDisplayed] = useState(false)
   const [playLists, setPlayLists] = useState<PlayList[]>()
   const [selectedId, setSelectedId] = useState<string>()
+  const [slideShowDisplayed, setSlideShowDisplayed] = useState<boolean>(false)
+  const [currentInterval, setCurrentInterval] = useState(3000)
+  const [slideShowTransistion, setSlideShowTransistion] = useState<boolean>(true)
 
   useEffect(() => {
     const getPhoto = async () => {
@@ -85,6 +90,13 @@ export const App = () => {
 
   return (
     <BackgroundContainer>
+      <FullScreenDisplay
+        isDisplayed={slideShowDisplayed}
+        playlists={playLists}
+        selectedPlayList={selectedId}
+        currentInterval={currentInterval}
+        slideShowTransistion={slideShowTransistion}
+      />
       <NavBar>
         <div style={{ flex: 1 }}></div>
         <CustomButton
@@ -123,7 +135,7 @@ export const App = () => {
                 }}
               />
             ) : undefined}
-            {/* {my var to change and sort }  */}
+
             {selectedPlaylist && playLists ? (
               <EditPlaylistBox playListToEdit={selectedPlaylist} playLists={playLists} setPlayLists={setPlayLists} />
             ) : undefined}
@@ -138,6 +150,13 @@ export const App = () => {
                     setSelectedId(undefined)
                   }
                 }}
+              />
+            ) : undefined}
+            {selectedPlaylist ? (
+              <SetAnimationAndTimeForm
+                setTime={setCurrentInterval}
+                setSlideShowTransistion={setSlideShowTransistion}
+                slideShowTransistion={slideShowTransistion}
               />
             ) : undefined}
           </CustomiseBar>
@@ -220,6 +239,12 @@ export const App = () => {
           text={'See Description'}
           onClick={() => {
             setIsDescriptionDisplayed(!isDescriptionDisplayed)
+          }}
+        />
+        <CustomButton
+          text={'Play SlideShow'}
+          onClick={() => {
+            setSlideShowDisplayed(!slideShowDisplayed)
           }}
         />
       </ToolBar>

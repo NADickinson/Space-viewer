@@ -90,3 +90,22 @@ body {
   padding-right: 200px;
   overflow: scroll;
 }
+
+.full-screen-display {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  z-index: 2000;
+  pointer-events: none;
+  background-color: black;
+}
+
+.space-image-full {
+  max-height: 100%;
+  max-width: 100%;
+  flex: 1;
+  object-fit: contain;
+  pointer-events: auto;
+}
