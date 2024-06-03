@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { PlayList } from '../../App'
 import { getPlaylistFromId, isPlaylist } from '../../api/playlistFunctions'
 import { is, isArrayOf } from 'ts-guardian'
+import { CustomButton } from '../tool_bar/CustomButton'
 
 export const FullScreenDisplay = ({
   isDisplayed,
@@ -9,61 +10,67 @@ export const FullScreenDisplay = ({
   selectedPlayList,
   currentInterval,
   slideShowTransistion,
+  setIsDisplayed, //this is for cross off
 }: {
   isDisplayed: boolean
   playlists: PlayList[] | undefined
   selectedPlayList: string | undefined
   currentInterval: number
   slideShowTransistion: boolean
+  setIsDisplayed: (display: boolean) => void
 }) => {
-  const [currentIndex, setCurrentIndex] = useState(0)
-
   const isString = is('string')
-  const [opacity, setOpacity] = useState(1)
+
+  const fadeDuration = slideShowTransistion ? currentInterval / 4 : 0
+
+  const [index, setIndex] = useState(0)
+  const [isImageVisible, setIsImageVisible] = useState(true)
 
   useEffect(() => {
     if (isDisplayed) {
-      const intervalId = setInterval(() => {
-        if (slideShowTransistion) {
-          setOpacity(0)
-        }
-
-        setCurrentIndex(currentIndex => {
-          if (isString(selectedPlayList) && isArrayOf(isPlaylist)(playlists)) {
-            const currentPlaylist = getPlaylistFromId(selectedPlayList, playlists)
-            if (currentPlaylist && currentIndex < currentPlaylist.list.length - 1) {
-              console.log(currentIndex)
-              return currentIndex + 1
-            } else {
-              return 0
+      if (isImageVisible) {
+        setTimeout(() => {
+          setIsImageVisible(false)
+        }, currentInterval - fadeDuration)
+      } else {
+        setTimeout(() => {
+          setIsImageVisible(true)
+          setIndex(currentIndex => {
+            if (isString(selectedPlayList) && isArrayOf(isPlaylist)(playlists)) {
+              const currentPlaylist = getPlaylistFromId(selectedPlayList, playlists)
+              if (currentPlaylist && currentIndex < currentPlaylist.list.length - 1) {
+                console.log(currentIndex)
+                return currentIndex + 1
+              } else {
+                return 0
+              }
             }
-          }
-          return currentIndex
-        })
-        setOpacity(1)
-      }, currentInterval)
-      return () => clearInterval(intervalId)
+            return currentIndex
+          })
+        }, fadeDuration)
+      }
     }
-  }, [isDisplayed, selectedPlayList, playlists])
+  }, [isImageVisible])
 
-  if (isDisplayed && playlists && selectedPlayList && slideShowTransistion) {
+  if (isDisplayed && playlists && selectedPlayList) {
     return (
-      <div
-        className="full-screen-display"
-        style={{
-          transition: `opacity ${currentInterval / 4} linear`,
-          opacity,
-        }}
-      >
+      <div className="full-screen-display">
+        <div style={{ zIndex: '5000', pointerEvents: 'auto', display: 'flex', flexDirection: 'row-reverse' }}>
+          <CustomButton onClick={() => setIsDisplayed(!isDisplayed)} />
+        </div>
         <img
-          src={getPlaylistFromId(selectedPlayList, playlists)?.list[currentIndex].url}
+          style={{
+            opacity: isImageVisible ? 1 : 0,
+            transition: `opacity ${fadeDuration}ms ease-in-out`,
+          }}
+          src={getPlaylistFromId(selectedPlayList, playlists)?.list[index].url}
           alt={''}
           className="space-image-full"
-        ></img>
+        />
       </div>
     )
   }
 }
 
-//closures chatgpt- front end masters
-//custom hooks
+// //closures chatgpt- front end masters
+// //custom hooks

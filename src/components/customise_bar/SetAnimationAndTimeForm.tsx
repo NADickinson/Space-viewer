@@ -15,6 +15,9 @@ export const SetAnimationAndTimeForm = ({
     <div>
       <Slider
         onChange={value => {
+          if (value === 0) {
+            setTime(1000)
+          }
           setTime(value * 1000)
         }}
       />

@@ -91,6 +91,7 @@ export const App = () => {
   return (
     <BackgroundContainer>
       <FullScreenDisplay
+        setIsDisplayed={setSlideShowDisplayed}
         isDisplayed={slideShowDisplayed}
         playlists={playLists}
         selectedPlayList={selectedId}
@@ -251,11 +252,3 @@ export const App = () => {
     </BackgroundContainer>
   )
 }
-
-//why change whats in here across the app to be id's if u search === in search where is it an issue and why
-//delete all playlists and favs, refresh page, local storage is empty arr
-
-//single piece of state per piece of data, shouldnt have playlist to edit and selected playlist ,
-// should instead both just be a string id which is set then renders the playlist basedoff that
-//when you pick a selected playlist and edit they are always set the same cant have 2 diff picked
-// abstract app so components are nested in one big component with minimal prop pass downage
