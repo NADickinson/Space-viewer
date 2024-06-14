@@ -8,10 +8,12 @@ export const EditPlaylistBox = ({
   playListToEdit,
   playLists,
   setPlayLists,
+  setCurrentDisplayed,
 }: {
   playListToEdit: PlayList
   playLists: PlayList[]
   setPlayLists: (playLists: PlayList[]) => void
+  setCurrentDisplayed: (obj: NasaObject) => void
 }) => {
   useEffect(() => {
     setNewOrderOfPlaylist(playListToEdit)
@@ -51,6 +53,7 @@ export const EditPlaylistBox = ({
                       return (
                         <div {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef}>
                           <CustomIndividualItems
+                            setCurrentDisplayed={setCurrentDisplayed}
                             item={nasaObject}
                             removeFromPlaylist={() => {
                               const result = {
@@ -84,10 +87,19 @@ export const EditPlaylistBox = ({
   )
 }
 
-const CustomIndividualItems = ({ item, removeFromPlaylist }: { item: NasaObject; removeFromPlaylist: () => void }) => {
+const CustomIndividualItems = ({
+  item,
+  removeFromPlaylist,
+  setCurrentDisplayed,
+}: {
+  item: NasaObject
+  removeFromPlaylist: () => void
+  setCurrentDisplayed: (obj: NasaObject) => void
+}) => {
   return (
     <div>
       {item.title} <CustomButton onClick={removeFromPlaylist} />
+      <CustomButton onClick={() => setCurrentDisplayed(item)} />
     </div>
   )
 }

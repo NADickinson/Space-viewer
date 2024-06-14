@@ -138,7 +138,12 @@ export const App = () => {
             ) : undefined}
 
             {selectedPlaylist && playLists ? (
-              <EditPlaylistBox playListToEdit={selectedPlaylist} playLists={playLists} setPlayLists={setPlayLists} />
+              <EditPlaylistBox
+                playListToEdit={selectedPlaylist}
+                playLists={playLists}
+                setPlayLists={setPlayLists}
+                setCurrentDisplayed={setCurrentDisplayed}
+              />
             ) : undefined}
 
             {selectedPlaylist ? (
