@@ -105,14 +105,6 @@ export const App = () => {
           onClick={() => {
             setCustomiseMenuDisplayed(!customiseMenuDisplayed)
           }}
-          passedStyles={{
-            root: {
-              backgroundColor: '#CEABD8',
-              borderColor: '#B681C5',
-              fontSize: '1.2rem',
-              justifySelf: 'flex-end',
-            },
-          }}
         />
       </NavBar>
 

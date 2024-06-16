@@ -34,6 +34,7 @@ body {
   align-items: center;
   height: 0;
   flex: 1;
+  background-color: black;
 }
 
 .space-image {
@@ -52,7 +53,7 @@ body {
 
 .nav-bar {
   height: 60px;
-  background-color: blue;
+  background-color: black;
   display: flex;
   flex-direction: row;
 }
@@ -60,14 +61,15 @@ body {
 .customise-bar {
   position: absolute;
   height: 100%;
-  background-color: blueviolet;
+  background-color: #68599b;
+  border: 2px, solid, black;
   z-index: 1000;
   right: 0;
   overflow: scroll;
 }
 
 .tool-bar {
-  background-color: hotpink;
+  background-color: black;
   max-height: 60px;
   display: flex;
   flex-direction: row;
@@ -78,7 +80,7 @@ body {
 
 .currentDescription {
   position: absolute;
-  background-color: aqua;
+  background-color: #968abc;
   height: 100%;
   width: 100%;
   z-index: 999;
