@@ -21,6 +21,7 @@ import { AddNewPlaylistForm } from './components/customise_bar/AddNewPlaylistFor
 import { EditPlaylistBox } from './components/customise_bar/EditPlaylistBox'
 import { FullScreenDisplay } from './components/full_screen/FullScreen'
 import { SetAnimationAndTimeForm } from './components/customise_bar/SetAnimationAndTimeForm'
+import { DeletePlaylistOption } from './components/customise_bar/DeletePlaylistOption'
 
 export type NasaObject = {
   copyright: string | undefined
@@ -48,6 +49,7 @@ export const App = () => {
   const [slideShowDisplayed, setSlideShowDisplayed] = useState<boolean>(false)
   const [currentInterval, setCurrentInterval] = useState(3000)
   const [slideShowTransistion, setSlideShowTransistion] = useState<boolean>(true)
+  const [deleteOption, setDeleteOption] = useState<boolean>(false)
 
   useEffect(() => {
     const getPhoto = async () => {
@@ -111,7 +113,6 @@ export const App = () => {
       <ContentContainer src={currentDisplayed} isDescriptionDisplayed={isDescriptionDisplayed}>
         {customiseMenuDisplayed ? (
           <CustomiseBar>
-            <div>{'!!!!!!!!!!'}</div>
             <AddNewPlaylistForm setPlaylists={setPlayLists} />
             {playLists ? (
               <CustomSelect
@@ -142,14 +143,21 @@ export const App = () => {
               <CustomButton
                 text={'Delete Selected Playlist'}
                 onClick={() => {
-                  deletePlaylist(selectedPlaylist)
-                  setPlayLists(loadPlaylists())
-                  if (!playLists?.includes(selectedPlaylist)) {
-                    setSelectedId(undefined)
-                  }
+                  setDeleteOption(true)
                 }}
               />
             ) : undefined}
+
+            {deleteOption && selectedPlaylist ? (
+              <DeletePlaylistOption
+                selectedId={selectedId}
+                playLists={playLists}
+                setPlayLists={setPlayLists}
+                setSelectedId={setSelectedId}
+                setDeleteOption={setDeleteOption}
+              />
+            ) : undefined}
+
             {selectedPlaylist ? (
               <SetAnimationAndTimeForm
                 setTime={setCurrentInterval}

@@ -56,7 +56,7 @@ export const FullScreenDisplay = ({
     return (
       <div className="full-screen-display">
         <div style={{ zIndex: '5000', pointerEvents: 'auto', display: 'flex', flexDirection: 'row-reverse' }}>
-          <CustomButton onClick={() => setIsDisplayed(!isDisplayed)} />
+          <CustomButton text={'Close'} onClick={() => setIsDisplayed(!isDisplayed)} />
         </div>
         <img
           style={{

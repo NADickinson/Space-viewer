@@ -21,9 +21,9 @@ export const CustomSelect = <Toption extends unknown>({
       options={options.map(option => {
         return { key: toId(option), text: toText(option) }
       })}
+      selectedKey={null}
       placeholder={placeHolder}
       disabled={disabled}
-      selectedKey={undefined}
       onChange={(_, option: IDropdownOption | undefined) => {
         const key = option?.key
         if (typeof key !== 'string') return
