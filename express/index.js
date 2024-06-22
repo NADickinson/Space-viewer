@@ -6,7 +6,7 @@ app.get('/', (req, res) => {
   res.send('Hello World!')
 })
 
-app.get('/BigChungus', (req, res) => {
+app.get('/BigChungus', async (req, res) => {
   const getData = async () => {
     const response = await fetch('https://apod.nasa.gov/apod/ap240622.html')
     const data = await response.text()
@@ -16,12 +16,10 @@ app.get('/BigChungus', (req, res) => {
     while ((match = imgRegex.exec(data)) !== null) {
       imgResult.push(match[1])
     }
+    return imgResult
+  }
+  const finalData = await getData()
 
-    console.log(2)
-  }
-  const finalData = async () => {
-    getData()
-  }
   res.send(finalData)
 })
 
