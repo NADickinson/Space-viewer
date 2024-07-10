@@ -1,29 +1,31 @@
 import express from 'express'
 import * as cheerio from 'cheerio'
+import cors from 'cors'
 
 const app = express()
+app.use(cors())
 const port = 3001
 
 app.get('/', (req, res) => {
   res.send('Hello World!')
 })
 
-app.get('/BigChungus', async (req, res) => {
-  const getData = async () => {
-    const response = await fetch('https://apod.nasa.gov/apod/ap240627.html')
+app.get('/SpaceViewer', async (req, res) => {
+  const date = req.query.date
+  const getData = async dateParam => {
+    const response = await fetch(`https://apod.nasa.gov/apod/ap${dateParam}.html`)
     const data = await response.text()
     console.log('data:', data)
     const imgRegex = /<img[^>]+src="([^">]+)"/gi
     const iframeRegex = /<iframe[^>]+src="([^">]+)"/gi
     const explanationRegex = /<b> Explanation: <\/b>(.*?)<p>/is
     const titleRegex = /<title>\s*(.*?)\s*<\/title>/i
-    const date = '1'
+    const date = dateParam
     let urlMatch
     let titleMatch
-
     let resultObj = { date: date }
     while ((urlMatch = imgRegex.exec(data)) !== null) {
-      resultObj.hdurl = urlMatch[1]
+      resultObj.hdurl = 'https://apod.nasa.gov/apod/' + urlMatch[1]
       resultObj.media_type = 'image'
     }
     while ((urlMatch = iframeRegex.exec(data)) !== null) {
@@ -55,7 +57,7 @@ app.get('/BigChungus', async (req, res) => {
 
     return resultObj
   }
-  const finalData = await getData()
+  const finalData = await getData(date)
 
   res.send(finalData)
 })

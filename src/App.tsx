@@ -22,16 +22,14 @@ import { EditPlaylistBox } from './components/customise_bar/EditPlaylistBox'
 import { FullScreenDisplay } from './components/full_screen/FullScreen'
 import { SetAnimationAndTimeForm } from './components/customise_bar/SetAnimationAndTimeForm'
 import { DeletePlaylistOption } from './components/customise_bar/DeletePlaylistOption'
+import { toSixFigureDate } from './utils/toSixFigureDate'
 
 export type NasaObject = {
-  copyright: string | undefined
   date: string
   explanation: string | undefined
   hdurl: string | undefined
   media_type: string | undefined
-  service_version: string | undefined
   title: string
-  url: string | undefined
 }
 
 export type PlayList = { name: string; id: string; list: NasaObject[] }
@@ -53,16 +51,18 @@ export const App = () => {
 
   useEffect(() => {
     const getPhoto = async () => {
-      const data = await getImageOfTheDay('')
+      const data = await getImageOfTheDay(toSixFigureDate(currentYear, currentMonth + 1, new Date().getDate()))
       if (data === undefined) {
+        console.log('fail')
         return
       }
-      setCurrentDisplayed(data[0])
-      const data2 = await getImageOfTheDay(`${currentYear}-${currentMonth + 1}-01`)
+      console.log(data)
+      setCurrentDisplayed(data)
+      const data2 = await getImageOfTheDay(toSixFigureDate(currentYear, currentMonth + 1, new Date().getDate()))
       if (data2 === undefined) {
         return
       }
-      setApiDataTotal(data2)
+      setApiDataTotal([data2])
       const loadedPlaylists = loadPlaylists()
       if (isArrayOf(isPlaylist)(loadedPlaylists)) {
         setPlayLists(loadedPlaylists)
@@ -75,15 +75,15 @@ export const App = () => {
     }
     getPhoto()
     // eslint-disable-next-line react-hooks/exhaustive-deps
+    console.log()
   }, [])
-
   useEffect(() => {
     const conditionallySetDropdownForImageSelect = async () => {
-      const data = await getImageOfTheDay(`${currentYear}-${currentMonth + 1}-01`)
+      const data = await getImageOfTheDay(toSixFigureDate(currentYear, currentMonth + 1, new Date().getDate()))
       if (data === undefined) {
         return
       }
-      setApiDataTotal(data)
+      setApiDataTotal([data])
     }
     conditionallySetDropdownForImageSelect()
   }, [currentYear, currentMonth])

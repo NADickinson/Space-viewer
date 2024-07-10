@@ -13,14 +13,11 @@ export const getRandomImage = async () => {
     console.log(data)
 
     const isNasaObject = is({
-      copyright: is('string').or('undefined'),
       date: 'string',
       explanation: 'string',
       hdurl: 'string',
       media_type: 'string',
-      service_version: 'string',
       title: 'string',
-      url: 'string',
     })
     if (Array.isArray(data)) {
       const randomObj = data[0]

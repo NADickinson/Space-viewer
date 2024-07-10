@@ -2,14 +2,11 @@ import { is, isArrayOf } from 'ts-guardian'
 import { PlayList } from '../App'
 
 export const isNasaObject = is({
-  copyright: is('string').or('undefined'),
   date: is('string'),
   explanation: is('string').or('undefined'),
   hdurl: is('string').or('undefined'),
   media_type: is('string').or('undefined'),
-  service_version: is('string').or('undefined'),
   title: is('string'),
-  url: is('string').or('undefined'),
 })
 export const isPlaylist = is({ name: is('string'), id: is('string'), list: isArrayOf(isNasaObject) })
 

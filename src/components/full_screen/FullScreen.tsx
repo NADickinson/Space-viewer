@@ -63,7 +63,7 @@ export const FullScreenDisplay = ({
             opacity: isImageVisible ? 1 : 0,
             transition: `opacity ${fadeDuration}ms ease-in-out`,
           }}
-          src={getPlaylistFromId(selectedPlayList, playlists)?.list[index].url}
+          src={getPlaylistFromId(selectedPlayList, playlists)?.list[index].hdurl}
           alt={''}
           className="space-image-full"
         />

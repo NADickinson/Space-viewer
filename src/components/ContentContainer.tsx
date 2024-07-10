@@ -14,6 +14,7 @@ export const ContentContainer = ({
   if (!src) {
     return
   }
+  console.log(src)
   return (
     <div className={'image-container'}>
       {isDescriptionDisplayed ? (
@@ -22,7 +23,7 @@ export const ContentContainer = ({
       {src.media_type === 'image' ? (
         <img src={src.hdurl} alt={''} className={'space-image'} />
       ) : (
-        <iframe src={src.url} title={'video'} className={'space-image'} style={{ width: '80%' }} />
+        <iframe src={src.hdurl} title={'video'} className={'space-image'} style={{ width: '80%' }} />
       )}
       {children}
     </div>
