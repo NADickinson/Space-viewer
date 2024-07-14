@@ -10,6 +10,35 @@ app.get('/', (req, res) => {
   res.send('Hello World!')
 })
 
+app.get('/SpaceData', async (req, res) => {
+  const getAllDates = async () => {
+    const response = await fetch('https://apod.nasa.gov/apod/archivepixFull.html')
+    const data = await response.text()
+    const datePattern =
+      /\b(\d{4})\s+(January|February|March|April|May|June|July|August|September|October|November|December)\s+(\d{1,2})\b/g
+    const secondDatePattern =
+      /\b(January|February|March|April|May|June|July|August|September|October|November|December)\s+(\d{1,2})\s+(\d{4})\b/g
+
+    let allData = []
+    let match
+    while ((match = datePattern.exec(data)) !== null) {
+      allData.push(match)
+    }
+    while ((match = secondDatePattern.exec(data)) !== null) {
+      allData.push(match)
+    }
+
+    let trimmedData = []
+    for (let i = 0; i < allData.length; i++) {
+      trimmedData.push([allData[i][1], allData[i][2], allData[i][3]])
+    }
+    return trimmedData
+  }
+
+  const result = await getAllDates()
+  res.send(result)
+})
+
 app.get('/SpaceViewer', async (req, res) => {
   const date = req.query.date
   const getData = async dateParam => {
