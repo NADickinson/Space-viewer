@@ -19,18 +19,21 @@ app.get('/SpaceData', async (req, res) => {
     const secondDatePattern =
       /\b(January|February|March|April|May|June|July|August|September|October|November|December)\s+(\d{1,2})\s+(\d{4})\b/g
 
-    let allData = []
+    let firstData = []
+    let secondData = []
     let match
     while ((match = datePattern.exec(data)) !== null) {
-      allData.push(match)
+      firstData.push(match)
     }
     while ((match = secondDatePattern.exec(data)) !== null) {
-      allData.push(match)
+      secondData.push(match)
     }
-
     let trimmedData = []
-    for (let i = 0; i < allData.length; i++) {
-      trimmedData.push([allData[i][1], allData[i][2], allData[i][3]])
+    for (let i = 0; i < firstData.length; i++) {
+      trimmedData.push([firstData[i][1], firstData[i][2], firstData[i][3]])
+    }
+    for (let i = 0; i < secondData.length; i++) {
+      trimmedData.push([secondData[i][3], secondData[i][1], secondData[i][2]])
     }
     return trimmedData
   }
