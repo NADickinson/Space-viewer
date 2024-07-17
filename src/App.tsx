@@ -9,13 +9,7 @@ import { CustomButton } from './components/tool_bar/CustomButton'
 import { CustomiseBar } from './components/customise_bar/CustomiseBar'
 import { months, monthsForDropDown, yearsForDropDown } from './api/dateFunction'
 import { getRandomImage } from './api/getRandomImage'
-import {
-  deletePlaylist,
-  getPlaylistFromId,
-  isPlaylist,
-  loadPlaylists,
-  updateOrAddPlaylist,
-} from './api/playlistFunctions'
+import { getPlaylistFromId, isPlaylist, loadPlaylists, updateOrAddPlaylist } from './api/playlistFunctions'
 import { isArrayOf } from 'ts-guardian'
 import { AddNewPlaylistForm } from './components/customise_bar/AddNewPlaylistForm'
 import { EditPlaylistBox } from './components/customise_bar/EditPlaylistBox'
@@ -23,6 +17,7 @@ import { FullScreenDisplay } from './components/full_screen/FullScreen'
 import { SetAnimationAndTimeForm } from './components/customise_bar/SetAnimationAndTimeForm'
 import { DeletePlaylistOption } from './components/customise_bar/DeletePlaylistOption'
 import { toSixFigureDate } from './utils/toSixFigureDate'
+import { getAllData } from './api/getAllDates'
 
 export type NasaObject = {
   date: string
@@ -32,11 +27,13 @@ export type NasaObject = {
   title: string
 }
 
+export type DateArray = [string, string, string]
+
 export type PlayList = { name: string; id: string; list: NasaObject[] }
 
 export const App = () => {
   const [currentDisplayed, setCurrentDisplayed] = useState<NasaObject>()
-  const [apiDataTotal, setApiDataTotal] = useState<NasaObject[]>([])
+  const [apiDataTotal, setApiDataTotal] = useState<DateArray[]>([])
   const [favList, setFavList] = useState<PlayList>()
   const [customiseMenuDisplayed, setCustomiseMenuDisplayed] = useState(false)
   const [currentYear, setCurrentYear] = useState(new Date().getFullYear())
@@ -48,6 +45,7 @@ export const App = () => {
   const [currentInterval, setCurrentInterval] = useState(3000)
   const [slideShowTransistion, setSlideShowTransistion] = useState<boolean>(true)
   const [deleteOption, setDeleteOption] = useState<boolean>(false)
+  const [currentList, setCurrentList] = useState<DateArray[]>([])
 
   useEffect(() => {
     const getPhoto = async () => {
@@ -58,11 +56,12 @@ export const App = () => {
       }
       console.log(data)
       setCurrentDisplayed(data)
-      const data2 = await getImageOfTheDay(toSixFigureDate(currentYear, currentMonth + 1, new Date().getDate()))
+      const data2 = await getAllData()
       if (data2 === undefined) {
         return
       }
-      setApiDataTotal([data2])
+
+      setApiDataTotal(data2)
       const loadedPlaylists = loadPlaylists()
       if (isArrayOf(isPlaylist)(loadedPlaylists)) {
         setPlayLists(loadedPlaylists)
@@ -72,19 +71,28 @@ export const App = () => {
           })
         )
       }
+      const x = await getAllData()
+      console.log(x)
     }
     getPhoto()
     // eslint-disable-next-line react-hooks/exhaustive-deps
     console.log()
   }, [])
+
+  //so need to update get month and year logic for drop downs, once their good and it displays based off fetch
+  //then maybe tweak to get names? for final drop down?
+  //then when u select u can do fetch for the one
   useEffect(() => {
-    const conditionallySetDropdownForImageSelect = async () => {
-      const data = await getImageOfTheDay(toSixFigureDate(currentYear, currentMonth + 1, new Date().getDate()))
-      if (data === undefined) {
-        return
-      }
-      setApiDataTotal([data])
+    const conditionallySetDropdownForImageSelect = () => {
+      const filteredDates = apiDataTotal.filter(dateArr => {
+        let convertedMonth = months.findIndex(month => {
+          return dateArr[1] === month
+        })
+        return +dateArr[0] === currentYear && convertedMonth === currentMonth
+      })
+      setCurrentList(filteredDates)
     }
+
     conditionallySetDropdownForImageSelect()
   }, [currentYear, currentMonth])
 
@@ -194,14 +202,17 @@ export const App = () => {
           placeHolder="Select Month"
         />
         <CustomSelect
-          options={apiDataTotal}
+          options={currentList}
           toId={option => {
-            return option.date
+            return option[0] + option[1] + option[2]
           }}
           toText={option => {
-            return option.title
+            return option[1] + ' ' + option[2] + ' ' + option[0]
           }}
-          onChange={setCurrentDisplayed}
+          onChange={async option => {
+            const res = await getImageOfTheDay(toSixFigureDate(currentYear, currentMonth + 1, +option[2]))
+            setCurrentDisplayed(res)
+          }}
           placeHolder="Select Your Image"
         />
         <CustomButton

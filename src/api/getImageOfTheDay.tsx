@@ -1,5 +1,4 @@
-import { is, isArrayOf } from 'ts-guardian'
-import { apiKey } from './apiKey'
+import { is } from 'ts-guardian'
 
 export const getImageOfTheDay = async (date: string) => {
   console.log(date)
