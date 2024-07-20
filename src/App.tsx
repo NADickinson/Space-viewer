@@ -27,7 +27,7 @@ export type NasaObject = {
   title: string
 }
 
-export type DateArray = [string, string, string]
+export type DateArray = [string, string, string, string]
 
 export type PlayList = { name: string; id: string; list: NasaObject[] }
 
@@ -202,12 +202,13 @@ export const App = () => {
           placeHolder="Select Month"
         />
         <CustomSelect
+          styles={{ dropdown: { width: '500px' } }}
           options={currentList}
           toId={option => {
             return option[0] + option[1] + option[2]
           }}
           toText={option => {
-            return option[1] + ' ' + option[2] + ' ' + option[0]
+            return option[1] + ' ' + option[2] + ' ' + option[0] + ' ' + option[3]
           }}
           onChange={async option => {
             const res = await getImageOfTheDay(toSixFigureDate(currentYear, currentMonth + 1, +option[2]))

@@ -15,9 +15,9 @@ app.get('/SpaceData', async (req, res) => {
     const response = await fetch('https://apod.nasa.gov/apod/archivepixFull.html')
     const data = await response.text()
     const datePattern =
-      /\b(\d{4})\s+(January|February|March|April|May|June|July|August|September|October|November|December)\s+(\d{1,2})\b/g
+      /\b(\d{4})\s+(January|February|March|April|May|June|July|August|September|October|November|December)\s+(\d{1,2})\b\s*:\s*<a href="[^"]*">([^<]*)<\/a>/g
     const secondDatePattern =
-      /\b(January|February|March|April|May|June|July|August|September|October|November|December)\s+(\d{1,2})\s+(\d{4})\b/g
+      /\b(January|February|March|April|May|June|July|August|September|October|November|December)\s+(\d{1,2})\s+(\d{4})\b\s*:\s*<a href="[^"]*">([^<]*)<\/a>/g
 
     let firstData = []
     let secondData = []
@@ -30,10 +30,10 @@ app.get('/SpaceData', async (req, res) => {
     }
     let trimmedData = []
     for (let i = 0; i < firstData.length; i++) {
-      trimmedData.push([firstData[i][1], firstData[i][2], firstData[i][3]])
+      trimmedData.push([firstData[i][1], firstData[i][2], firstData[i][3], firstData[i][4]])
     }
     for (let i = 0; i < secondData.length; i++) {
-      trimmedData.push([secondData[i][3], secondData[i][1], secondData[i][2]])
+      trimmedData.push([secondData[i][3], secondData[i][1], secondData[i][2], secondData[i][4]])
     }
     return trimmedData
   }
@@ -97,8 +97,3 @@ app.get('/SpaceViewer', async (req, res) => {
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 })
-
-//first task is to make express endpoint show me a nasaobject
-//first make html page parser and THEN fetch to the standard page eg: below
-//https://apod.nasa.gov/apod/ap240619.html
-// do the req as a single hardcoded obj
