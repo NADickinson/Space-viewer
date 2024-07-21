@@ -1,15 +1,18 @@
 import React, { ReactNode } from 'react'
-import { NasaObject } from '../App'
+import { BackgroundObject, NasaObject } from '../App'
 import { CurrentDescription } from './tool_bar/CurrentDescription'
+import { Stars } from '../utils/Stars'
 
 export const ContentContainer = ({
   src,
   children,
   isDescriptionDisplayed,
+  starBackground,
 }: {
   src: NasaObject | undefined
   children: ReactNode
   isDescriptionDisplayed: boolean
+  starBackground: BackgroundObject
 }) => {
   if (!src) {
     return
@@ -17,6 +20,7 @@ export const ContentContainer = ({
   console.log(src)
   return (
     <div className={'image-container'}>
+      <Stars starBackground={starBackground} />
       {isDescriptionDisplayed ? (
         <CurrentDescription description={src?.explanation + ' Date of this image: ' + src.date} />
       ) : undefined}

@@ -18,6 +18,7 @@ import { SetAnimationAndTimeForm } from './components/customise_bar/SetAnimation
 import { DeletePlaylistOption } from './components/customise_bar/DeletePlaylistOption'
 import { toSixFigureDate } from './utils/toSixFigureDate'
 import { getAllData } from './api/getAllDates'
+import { BackgroundAnimationForm } from './components/customise_bar/backgroundAnimationForm'
 
 export type NasaObject = {
   date: string
@@ -30,6 +31,8 @@ export type NasaObject = {
 export type DateArray = [string, string, string, string]
 
 export type PlayList = { name: string; id: string; list: NasaObject[] }
+
+export type BackgroundObject = { moving: boolean; staticBackground: boolean; flashing: boolean }
 
 export const App = () => {
   const [currentDisplayed, setCurrentDisplayed] = useState<NasaObject>()
@@ -46,6 +49,11 @@ export const App = () => {
   const [slideShowTransistion, setSlideShowTransistion] = useState<boolean>(true)
   const [deleteOption, setDeleteOption] = useState<boolean>(false)
   const [currentList, setCurrentList] = useState<DateArray[]>([])
+  const [starBackground, setStarBackground] = useState<BackgroundObject>({
+    moving: true,
+    staticBackground: false,
+    flashing: false,
+  })
 
   useEffect(() => {
     const getPhoto = async () => {
@@ -99,7 +107,7 @@ export const App = () => {
   const selectedPlaylist = selectedId && playLists ? getPlaylistFromId(selectedId, playLists) : undefined
 
   return (
-    <BackgroundContainer>
+    <BackgroundContainer starBackground={starBackground}>
       <FullScreenDisplay
         setIsDisplayed={setSlideShowDisplayed}
         isDisplayed={slideShowDisplayed}
@@ -118,7 +126,11 @@ export const App = () => {
         />
       </NavBar>
 
-      <ContentContainer src={currentDisplayed} isDescriptionDisplayed={isDescriptionDisplayed}>
+      <ContentContainer
+        src={currentDisplayed}
+        isDescriptionDisplayed={isDescriptionDisplayed}
+        starBackground={starBackground}
+      >
         {customiseMenuDisplayed ? (
           <CustomiseBar>
             <AddNewPlaylistForm setPlaylists={setPlayLists} />
@@ -173,6 +185,7 @@ export const App = () => {
                 slideShowTransistion={slideShowTransistion}
               />
             ) : undefined}
+            <BackgroundAnimationForm backgroundObject={starBackground} setBackgroundObject={setStarBackground} />
           </CustomiseBar>
         ) : undefined}
       </ContentContainer>

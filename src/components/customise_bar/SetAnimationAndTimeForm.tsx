@@ -18,13 +18,15 @@ export const SetAnimationAndTimeForm = ({
           setTime(value === 0 ? 1000 : value * 2000)
         }}
       />
-
-      <Checkbox
-        checked={slideShowTransistion}
-        onChange={() => {
-          setSlideShowTransistion(!slideShowTransistion)
-        }}
-      />
+      <div style={{ display: 'flex' }}>
+        <Checkbox
+          checked={slideShowTransistion}
+          onChange={() => {
+            setSlideShowTransistion(!slideShowTransistion)
+          }}
+        />
+        {'Set Slideshow Image Fade'}
+      </div>
     </div>
   )
 }
