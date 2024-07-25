@@ -21,5 +21,66 @@ export const Stars = ({ starBackground }: { starBackground: BackgroundObject }) 
         <div className="stars-static"></div>
       </div>
     )
+  } else if (starBackground.flashing) {
+    return (
+      <div id="space">
+        <div className="stars-flashing"></div>
+        <div className="stars-flashing"></div>
+        <div className="stars-flashing"></div>
+        <div className="stars-flashing"></div>
+        <div className="stars-flashing"></div>
+        <div className="stars-flashing"></div>
+        <div className="stars-flashing"></div>
+        <div className="stars-flashing"></div>
+        <div className="stars-flashing"></div>
+        <div className="stars-flashing"></div>
+        <div className="stars-flashing"></div>
+        <div className="stars-flashing"></div>
+        <div className="stars-flashing"></div>
+        <div className="stars-flashing"></div>
+        <div className="stars-flashing"></div>
+        <div className="stars-flashing"></div>
+        <div className="stars-flashing"></div>
+        <div className="stars-flashing"></div>
+        <div className="stars-flashing"></div>
+        <div className="stars-flashing"></div>
+        <div className="stars-flashing"></div>
+        <div className="stars-flashing"></div>
+        <div className="stars-flashing"></div>
+        <div className="stars-flashing"></div>
+        <div className="stars-flashing"></div>
+        <div className="stars-flashing"></div>
+        <div className="stars-flashing"></div>
+        <div className="stars-flashing"></div>
+        <div className="stars-flashing"></div>
+        <div className="stars-flashing"></div>
+        <div className="stars-flashing"></div>
+        <div className="stars-flashing"></div>
+        <div className="stars-flashing"></div>
+        <div className="stars-flashing"></div>
+        <div className="stars-flashing"></div>
+        <div className="stars-flashing"></div>
+        <div className="stars-flashing"></div>
+        <div className="stars-flashing"></div>
+        <div className="stars-flashing"></div>
+        <div className="stars-flashing"></div>
+        <div className="stars-flashing"></div>
+        <div className="stars-flashing"></div>
+        <div className="stars-flashing"></div>
+        <div className="stars-flashing"></div>
+        <div className="stars-flashing"></div>
+        <div className="stars-flashing"></div>
+        <div className="stars-flashing"></div>
+        <div className="stars-flashing"></div>
+        <div className="stars-flashing"></div>
+        <div className="stars-flashing"></div>
+        <div className="stars-flashing"></div>
+        <div className="stars-flashing"></div>
+        <div className="stars-flashing"></div>
+        <div className="stars-flashing"></div>
+        <div className="stars-flashing"></div>
+        <div className="stars-flashing"></div>
+      </div>
+    )
   }
 }
