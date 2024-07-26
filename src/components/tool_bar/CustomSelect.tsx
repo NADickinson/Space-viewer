@@ -23,7 +23,40 @@ export const CustomSelect = <Toption extends unknown>({
       options={options.map(option => {
         return { key: toId(option), text: toText(option) }
       })}
-      styles={styles}
+      styles={{
+        root: {
+          selectors: {
+            ':hover .ms-Dropdown-title': {
+              color: 'white !important',
+              backgroundColor: '#007fff',
+            },
+          },
+        },
+        title: {
+          backgroundColor: '#007fbd',
+          borderWidth: '0px',
+          color: 'black',
+          fontSize: '1.2rem',
+          fontWeight: '600',
+        },
+        callout: {
+          border: '2px solid #0078d4',
+          borderRadius: '4px',
+          padding: '0px',
+        },
+        dropdownItem: {
+          selectors: {
+            ':hover': {
+              backgroundColor: '#007fff',
+              color: 'black',
+            },
+          },
+          backgroundColor: '#007fbd',
+          color: 'black',
+          fontWeight: 'bold',
+          fontSize: '14px',
+        },
+      }}
       selectedKey={null}
       placeholder={placeHolder}
       disabled={disabled}

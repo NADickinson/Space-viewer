@@ -62,10 +62,11 @@ body {
 .customise-bar {
   position: absolute;
   height: 100%;
-  background-color: #68599b;
+  background-color: #515050;
   z-index: 1000;
   right: 0;
   overflow: scroll;
+  color: white;
 }
 
 .tool-bar {

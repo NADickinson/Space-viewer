@@ -229,21 +229,6 @@ export const App = () => {
           }}
           placeHolder="Select Your Image"
         />
-        <CustomButton
-          text={'Add To Selected Playlist'}
-          onClick={() => {
-            if (!currentDisplayed) {
-              return
-            } else {
-              if (selectedPlaylist) {
-                const newCurrent = { ...selectedPlaylist, list: [...selectedPlaylist.list, currentDisplayed] }
-                updateOrAddPlaylist(newCurrent)
-                const loadedPlaylists = loadPlaylists()
-                setPlayLists(loadedPlaylists)
-              }
-            }
-          }}
-        />
         {playLists ? (
           <CustomSelect
             options={playLists}
@@ -259,6 +244,22 @@ export const App = () => {
             placeHolder={'Currently Selected Playlist'}
           />
         ) : undefined}
+        <CustomButton
+          text={'Add To Selected Playlist'}
+          onClick={() => {
+            if (!currentDisplayed) {
+              return
+            } else {
+              if (selectedPlaylist) {
+                const newCurrent = { ...selectedPlaylist, list: [...selectedPlaylist.list, currentDisplayed] }
+                updateOrAddPlaylist(newCurrent)
+                const loadedPlaylists = loadPlaylists()
+                setPlayLists(loadedPlaylists)
+              }
+            }
+          }}
+        />
+
         <CustomButton
           text={'See Random Image'}
           onClick={async () => {

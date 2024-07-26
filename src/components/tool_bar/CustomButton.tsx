@@ -13,14 +13,15 @@ export const CustomButton = ({
     <PrimaryButton
       styles={{
         root: {
-          backgroundColor: '#958ABC',
-          borderColor: '#68599B',
+          backgroundColor: '#007fbd',
           fontSize: '1.2rem',
           justifySelf: 'flex-end',
+          color: 'black',
+          fontWeight: 'bold',
         },
         rootHovered: {
-          backgroundColor: '#4F4375',
-          borderColor: '#342D4E',
+          backgroundColor: '#007fff',
+          borderColor: '#007fbd',
         },
       }}
       onClick={onClick}
