@@ -38,51 +38,53 @@ export const EditPlaylistBox = ({
         updateOrAddPlaylist(currentNewOrder)
       }}
     >
-      <Droppable droppableId={'playlist_items'}>
-        {provided => {
-          return (
-            <div {...provided.droppableProps} ref={provided.innerRef}>
-              {newOrderOfPlaylist.list.map((nasaObject: NasaObject, index) => {
-                return (
-                  <Draggable
-                    key={`${nasaObject.date}-${index}`}
-                    index={index}
-                    draggableId={`${nasaObject.date}-${index}`}
-                  >
-                    {provided => {
-                      return (
-                        <div {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef}>
-                          <CustomIndividualItems
-                            setCurrentDisplayed={setCurrentDisplayed}
-                            item={nasaObject}
-                            removeFromPlaylist={() => {
-                              const result = {
-                                ...newOrderOfPlaylist,
-                                list: newOrderOfPlaylist.list.filter((_, i) => {
-                                  return i !== index
-                                }),
-                              }
-                              setNewOrderOfPlaylist(result)
-                              const editedPlaylistIndex = playLists.findIndex(playList => {
-                                return playList.id === result.id
-                              })
-                              const newPlaylists = [...playLists]
-                              newPlaylists[editedPlaylistIndex] = result
-                              setPlayLists(newPlaylists)
-                              updateOrAddPlaylist(result)
-                            }}
-                          />
-                        </div>
-                      )
-                    }}
-                  </Draggable>
-                )
-              })}
-              {provided.placeholder}
-            </div>
-          )
-        }}
-      </Droppable>
+      <div style={{ padding: '10px' }}>
+        <Droppable droppableId={'playlist_items'}>
+          {provided => {
+            return (
+              <div {...provided.droppableProps} ref={provided.innerRef}>
+                {newOrderOfPlaylist.list.map((nasaObject: NasaObject, index) => {
+                  return (
+                    <Draggable
+                      key={`${nasaObject.date}-${index}`}
+                      index={index}
+                      draggableId={`${nasaObject.date}-${index}`}
+                    >
+                      {provided => {
+                        return (
+                          <div {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef}>
+                            <CustomIndividualItems
+                              setCurrentDisplayed={setCurrentDisplayed}
+                              item={nasaObject}
+                              removeFromPlaylist={() => {
+                                const result = {
+                                  ...newOrderOfPlaylist,
+                                  list: newOrderOfPlaylist.list.filter((_, i) => {
+                                    return i !== index
+                                  }),
+                                }
+                                setNewOrderOfPlaylist(result)
+                                const editedPlaylistIndex = playLists.findIndex(playList => {
+                                  return playList.id === result.id
+                                })
+                                const newPlaylists = [...playLists]
+                                newPlaylists[editedPlaylistIndex] = result
+                                setPlayLists(newPlaylists)
+                                updateOrAddPlaylist(result)
+                              }}
+                            />
+                          </div>
+                        )
+                      }}
+                    </Draggable>
+                  )
+                })}
+                {provided.placeholder}
+              </div>
+            )
+          }}
+        </Droppable>
+      </div>
     </DragDropContext>
   )
 }
@@ -97,9 +99,9 @@ const CustomIndividualItems = ({
   setCurrentDisplayed: (obj: NasaObject) => void
 }) => {
   return (
-    <div>
-      {item.title} <CustomButton text={'Delete'} onClick={removeFromPlaylist} />
-      <CustomButton text={'View'} onClick={() => setCurrentDisplayed(item)} />
+    <div style={{ display: 'flex', gap: '10px' }}>
+      {item.title} <CustomButton text={'View'} onClick={() => setCurrentDisplayed(item)} />{' '}
+      <CustomButton deleteButton={true} onClick={removeFromPlaylist} />
     </div>
   )
 }

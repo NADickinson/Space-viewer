@@ -37,7 +37,7 @@ export const CustomSelect = <Toption extends unknown>({
           borderWidth: '0px',
           color: 'black',
           fontSize: '1.2rem',
-          fontWeight: '600',
+          fontWeight: '700',
         },
         callout: {
           border: '2px solid #0078d4',

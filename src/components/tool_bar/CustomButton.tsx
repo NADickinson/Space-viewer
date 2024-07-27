@@ -4,10 +4,12 @@ import React from 'react'
 export const CustomButton = ({
   onClick,
   text,
+  deleteButton,
 }: {
   onClick: () => void
   text?: string
   passedStyles?: IButtonStyles
+  deleteButton?: boolean
 }) => {
   return (
     <PrimaryButton
@@ -26,6 +28,7 @@ export const CustomButton = ({
       }}
       onClick={onClick}
     >
+      {deleteButton && <span className="material-symbols-outlined">delete</span>}
       {text}
     </PrimaryButton>
   )

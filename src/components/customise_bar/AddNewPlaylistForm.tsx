@@ -7,7 +7,7 @@ export const AddNewPlaylistForm = ({ setPlaylists }: { setPlaylists: (playlistsA
   const inputVal = useRef<string>()
 
   return (
-    <div>
+    <div style={{ padding: '10px' }}>
       <input
         type={'text'}
         onChange={e => {
