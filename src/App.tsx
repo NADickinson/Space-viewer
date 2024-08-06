@@ -57,12 +57,15 @@ export const App = () => {
 
   useEffect(() => {
     const getPhoto = async () => {
-      const data = await getImageOfTheDay(toSixFigureDate(currentYear, currentMonth + 1, new Date().getDate()))
+      let data = await getImageOfTheDay(toSixFigureDate(currentYear, currentMonth + 1, new Date().getDate()))
       if (data === undefined) {
         console.log('fail')
         return
       }
       console.log(data)
+      if (data.title === '404 Not Found') {
+        data = await getImageOfTheDay(toSixFigureDate(currentYear, currentMonth + 1, new Date().getDate() - 1))
+      }
       setCurrentDisplayed(data)
       const data2 = await getAllData()
       if (data2 === undefined) {

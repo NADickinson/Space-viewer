@@ -100,7 +100,7 @@ const CustomIndividualItems = ({
 }) => {
   return (
     <div style={{ display: 'flex', gap: '10px' }}>
-      {item.title} <CustomButton text={'View'} onClick={() => setCurrentDisplayed(item)} />{' '}
+      {item.title} <CustomButton text={'View'} onClick={() => setCurrentDisplayed(item)} />
       <CustomButton deleteButton={true} onClick={removeFromPlaylist} />
     </div>
   )

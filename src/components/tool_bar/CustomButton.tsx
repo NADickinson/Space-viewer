@@ -1,15 +1,18 @@
 import { IButtonStyles, PrimaryButton } from '@fluentui/react'
-import React from 'react'
+import React, { ComponentProps } from 'react'
 
 export const CustomButton = ({
   onClick,
   text,
   deleteButton,
+  passedStyles,
+  children,
 }: {
   onClick: () => void
   text?: string
-  passedStyles?: IButtonStyles
+  passedStyles?: ComponentProps<typeof PrimaryButton>['styles']
   deleteButton?: boolean
+  children?: React.ReactNode
 }) => {
   return (
     <PrimaryButton
@@ -25,11 +28,13 @@ export const CustomButton = ({
           backgroundColor: '#007fff',
           borderColor: '#007fbd',
         },
+        ...passedStyles,
       }}
       onClick={onClick}
     >
-      {deleteButton && <span className="material-symbols-outlined">delete</span>}
+      {deleteButton ? <span className="material-symbols-outlined">delete</span> : undefined}
       {text}
+      {children}
     </PrimaryButton>
   )
 }

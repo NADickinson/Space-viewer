@@ -2,6 +2,7 @@ import React, { ReactNode } from 'react'
 import { BackgroundObject, NasaObject } from '../App'
 import { CurrentDescription } from './tool_bar/CurrentDescription'
 import { Stars } from '../utils/Stars'
+import { ScrollButtons } from '../utils/ScrollButtons'
 
 export const ContentContainer = ({
   src,
@@ -21,6 +22,7 @@ export const ContentContainer = ({
   return (
     <div className={'image-container'}>
       <Stars starBackground={starBackground} />
+      <ScrollButtons classNameStyle={'scroll_button1'} />
       {isDescriptionDisplayed ? (
         <CurrentDescription description={src?.explanation + ' Date of this image: ' + src.date} />
       ) : undefined}
@@ -30,6 +32,7 @@ export const ContentContainer = ({
         <iframe src={src.hdurl} title={'video'} className={'space-image'} style={{ width: '80%' }} />
       )}
       {children}
+      <ScrollButtons classNameStyle={'scroll_button2'} />
     </div>
   )
 }
