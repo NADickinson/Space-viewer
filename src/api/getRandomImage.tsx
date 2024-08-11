@@ -1,5 +1,6 @@
 import { is } from 'ts-guardian'
 import { apiKey } from './apiKey'
+import { toSixFigureDate } from '../utils/toSixFigureDate'
 
 export const getRandomImage = async () => {
   try {
@@ -21,7 +22,16 @@ export const getRandomImage = async () => {
     })
     if (Array.isArray(data)) {
       const randomObj = data[0]
-      if (isNasaObject(randomObj)) return randomObj
+      if (isNasaObject(randomObj)) {
+        let dateStrSplit = randomObj.date.split('-')
+        return {
+          date: toSixFigureDate(Number(dateStrSplit[0]), Number(dateStrSplit[1]), Number(dateStrSplit[2])),
+          explanation: randomObj.explanation,
+          hdurl: randomObj.hdurl,
+          media_type: randomObj.media_type,
+          title: randomObj.title,
+        }
+      }
     } else return
   } catch (err) {
     console.log(err)
