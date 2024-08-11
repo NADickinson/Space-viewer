@@ -47,7 +47,6 @@ app.get('/SpaceViewer', async (req, res) => {
   const getData = async dateParam => {
     const response = await fetch(`https://apod.nasa.gov/apod/ap${dateParam}.html`)
     const data = await response.text()
-    console.log('data:', data)
     const imgRegex = /<img[^>]+src="([^">]+)"/gi
     const iframeRegex = /<iframe[^>]+src="([^">]+)"/gi
     const explanationRegex = /<b> Explanation: <\/b>(.*?)<p>/is
@@ -68,7 +67,6 @@ app.get('/SpaceViewer', async (req, res) => {
     if (titleMatch !== null) {
       resultObj.title = titleMatch[1].trim()
     }
-    console.log(titleMatch)
 
     let explanationMatch = explanationRegex.exec(data)
     if (explanationMatch !== null) {
@@ -85,11 +83,11 @@ app.get('/SpaceViewer', async (req, res) => {
 
       resultObj.explanation = explanationText
     }
-    console.log(resultObj)
 
     return resultObj
   }
   const finalData = await getData(date)
+  console.log('this is final!' + finalData)
 
   res.send(finalData)
 })

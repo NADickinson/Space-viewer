@@ -9,11 +9,15 @@ export const ContentContainer = ({
   children,
   isDescriptionDisplayed,
   starBackground,
+  customiseMenuDisplayed,
+  fullscreendisplay,
 }: {
   src: NasaObject | undefined
   children: ReactNode
   isDescriptionDisplayed: boolean
   starBackground: BackgroundObject
+  customiseMenuDisplayed: boolean
+  fullscreendisplay: boolean
 }) => {
   if (!src) {
     return
@@ -22,7 +26,7 @@ export const ContentContainer = ({
   return (
     <div className={'image-container'}>
       <Stars starBackground={starBackground} />
-      <ScrollButtons classNameStyle={'scroll_button1'} />
+      {fullscreendisplay || isDescriptionDisplayed ? undefined : <ScrollButtons currentDisplayed={src} isLeft={true} />}
       {isDescriptionDisplayed ? (
         <CurrentDescription description={src?.explanation + ' Date of this image: ' + src.date} />
       ) : undefined}
@@ -32,7 +36,9 @@ export const ContentContainer = ({
         <iframe src={src.hdurl} title={'video'} className={'space-image'} style={{ width: '80%' }} />
       )}
       {children}
-      <ScrollButtons classNameStyle={'scroll_button2'} />
+      {customiseMenuDisplayed || fullscreendisplay || isDescriptionDisplayed ? undefined : (
+        <ScrollButtons currentDisplayed={src} isLeft={false} />
+      )}
     </div>
   )
 }

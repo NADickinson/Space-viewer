@@ -13,12 +13,13 @@ export const SetAnimationAndTimeForm = ({
 }) => {
   return (
     <div>
+      <div style={{ color: '#B1B3B3', padding: '5px' }}>{'Use Slider To Set Image Fade Time On Slideshow'}</div>
       <Slider
         onChange={value => {
           setTime(value === 0 ? 1000 : value * 2000)
         }}
       />
-      <div style={{ display: 'flex' }}>
+      <div style={{ display: 'flex', padding: '5px' }}>
         <Checkbox
           checked={slideShowTransistion}
           onChange={() => {

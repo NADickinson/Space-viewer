@@ -18,15 +18,18 @@ export const CustomButton = ({
     <PrimaryButton
       styles={{
         root: {
-          backgroundColor: '#007fbd',
+          backgroundColor: '#033A56',
           fontSize: '1.2rem',
           justifySelf: 'flex-end',
-          color: 'black',
+          color: '#B1B3B3',
           fontWeight: 'bold',
+          borderColor: '#033A56',
+          borderRadius: '5px',
         },
         rootHovered: {
-          backgroundColor: '#007fff',
-          borderColor: '#007fbd',
+          backgroundColor: '#035984',
+          borderColor: '#033A56',
+          color: '#B1B3B3',
         },
         ...passedStyles,
       }}

@@ -66,6 +66,7 @@ export const App = () => {
       if (data.title === '404 Not Found') {
         data = await getImageOfTheDay(toSixFigureDate(currentYear, currentMonth + 1, new Date().getDate() - 1))
       }
+
       setCurrentDisplayed(data)
       const data2 = await getAllData()
       if (data2 === undefined) {
@@ -90,9 +91,6 @@ export const App = () => {
     console.log()
   }, [])
 
-  //so need to update get month and year logic for drop downs, once their good and it displays based off fetch
-  //then maybe tweak to get names? for final drop down?
-  //then when u select u can do fetch for the one
   useEffect(() => {
     const conditionallySetDropdownForImageSelect = () => {
       const filteredDates = apiDataTotal.filter(dateArr => {
@@ -130,6 +128,8 @@ export const App = () => {
       </NavBar>
 
       <ContentContainer
+        fullscreendisplay={slideShowDisplayed}
+        customiseMenuDisplayed={customiseMenuDisplayed}
         src={currentDisplayed}
         isDescriptionDisplayed={isDescriptionDisplayed}
         starBackground={starBackground}

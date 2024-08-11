@@ -27,32 +27,33 @@ export const CustomSelect = <Toption extends unknown>({
         root: {
           selectors: {
             ':hover .ms-Dropdown-title': {
-              color: 'white !important',
-              backgroundColor: '#007fff',
+              color: '#B1B3B3 !important',
+              backgroundColor: '#035984',
             },
           },
         },
         title: {
-          backgroundColor: '#007fbd',
+          backgroundColor: '#033A56',
           borderWidth: '0px',
-          color: 'black',
+          color: '#B1B3B3',
           fontSize: '1.2rem',
           fontWeight: '700',
+          borderRadius: '5px',
         },
         callout: {
-          border: '2px solid #0078d4',
+          border: '2px solid #033A56',
           borderRadius: '4px',
           padding: '0px',
         },
         dropdownItem: {
           selectors: {
             ':hover': {
-              backgroundColor: '#007fff',
-              color: 'black',
+              backgroundColor: '#035984',
+              color: '#B1B3B3',
             },
           },
-          backgroundColor: '#007fbd',
-          color: 'black',
+          backgroundColor: '#033A56',
+          color: '#B1B3B3',
           fontWeight: 'bold',
           fontSize: '14px',
         },

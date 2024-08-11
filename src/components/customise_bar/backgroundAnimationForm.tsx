@@ -11,7 +11,7 @@ export const BackgroundAnimationForm = ({
 }) => {
   return (
     <div>
-      <div style={{ display: 'flex' }}>
+      <div style={{ display: 'flex', padding: '5px' }}>
         <Checkbox
           checked={backgroundObject.moving}
           onChange={() => {
@@ -24,7 +24,7 @@ export const BackgroundAnimationForm = ({
         />
         {'Moving Stars Background'}
       </div>
-      <div style={{ display: 'flex' }}>
+      <div style={{ display: 'flex', padding: '5px' }}>
         <Checkbox
           checked={backgroundObject.staticBackground}
           onChange={() => {
@@ -37,7 +37,7 @@ export const BackgroundAnimationForm = ({
         />
         {'Static Stars Background'}
       </div>
-      <div style={{ display: 'flex' }}>
+      <div style={{ display: 'flex', padding: '5px' }}>
         <Checkbox
           checked={backgroundObject.flashing}
           onChange={() => {
