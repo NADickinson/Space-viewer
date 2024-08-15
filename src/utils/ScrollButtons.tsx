@@ -3,12 +3,35 @@ import { CustomButton } from '../components/tool_bar/CustomButton'
 import { getImageOfTheDay } from '../api/getImageOfTheDay'
 import { toSixFigureDate } from './toSixFigureDate'
 import { NasaObject } from '../App'
-
-export const ScrollButtons = ({ isLeft, currentDisplayed }: { isLeft: boolean; currentDisplayed: NasaObject }) => {
-  const [currentDisplayDate, setCurrentDisplayDate] = useState()
+import { months } from '../api/dateFunction'
+export const ScrollButtons = ({
+  isLeft,
+  currentDisplayed,
+  setCurrentDisplayed,
+}: {
+  isLeft: boolean
+  currentDisplayed: NasaObject
+  setCurrentDisplayed: (objectToSet: NasaObject) => void
+}) => {
+  const [currentDisplayDate, setCurrentDisplayDate] = useState<Date>()
   useEffect(() => {
-    console.log(currentDisplayed)
+    console.log(currentDisplayed.date)
+    let startingYear = currentDisplayed.date.slice(0, 2)
+    let startingMonth = currentDisplayed.date.slice(2, 4)
+    let startingDay = currentDisplayed.date.slice(4, 6)
+    let yearConverted =
+      startingYear.startsWith('95') ||
+      startingYear.startsWith('96') ||
+      startingYear.startsWith('97') ||
+      startingYear.startsWith('98') ||
+      startingYear.startsWith('99')
+        ? Number('19' + startingYear)
+        : Number('20' + startingYear)
+    let monthConverted = startingMonth.startsWith('0') ? Number(startingMonth.slice(1)) : Number(startingMonth)
+    let dayConverted = startingDay.startsWith('0') ? Number(startingDay.slice(1)) : Number(startingDay)
+    setCurrentDisplayDate(new Date(yearConverted, monthConverted, dayConverted))
   }, [currentDisplayed])
+
   return (
     <div className={isLeft ? 'scroll_button_left' : 'scroll_button_right'}>
       <CustomButton
@@ -30,7 +53,31 @@ export const ScrollButtons = ({ isLeft, currentDisplayed }: { isLeft: boolean; c
           },
         }}
         onClick={async () => {
-          console.log('scroll')
+          if (isLeft && currentDisplayDate) {
+            const newDate = new Date(currentDisplayDate)
+            newDate.setDate(currentDisplayDate.getDate() - 1)
+            console.log(newDate)
+            let data = await getImageOfTheDay(
+              toSixFigureDate(newDate.getFullYear(), newDate.getMonth(), newDate.getDate())
+            )
+
+            if (data) {
+              setCurrentDisplayed(data)
+            }
+          } else {
+            if (currentDisplayDate) {
+              const newDate = new Date(currentDisplayDate)
+              newDate.setDate(currentDisplayDate.getDate() + 1)
+              console.log(newDate)
+              let data = await getImageOfTheDay(
+                toSixFigureDate(newDate.getFullYear(), newDate.getMonth(), newDate.getDate())
+              )
+
+              if (data) {
+                setCurrentDisplayed(data)
+              }
+            }
+          }
         }}
       >
         <div style={{ display: 'flex', position: 'absolute' }}>

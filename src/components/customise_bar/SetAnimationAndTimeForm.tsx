@@ -1,5 +1,4 @@
-import React, { useRef } from 'react'
-import { CustomButton } from '../tool_bar/CustomButton'
+import React from 'react'
 import { Checkbox, Slider } from '@fluentui/react'
 
 export const SetAnimationAndTimeForm = ({

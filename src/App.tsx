@@ -128,6 +128,7 @@ export const App = () => {
       </NavBar>
 
       <ContentContainer
+        setCurrentDisplayed={setCurrentDisplayed}
         fullscreendisplay={slideShowDisplayed}
         customiseMenuDisplayed={customiseMenuDisplayed}
         src={currentDisplayed}
