@@ -19,6 +19,7 @@ import { DeletePlaylistOption } from './components/customise_bar/DeletePlaylistO
 import { toSixFigureDate } from './utils/toSixFigureDate'
 import { getAllData } from './api/getAllDates'
 import { BackgroundAnimationForm } from './components/customise_bar/backgroundAnimationForm'
+import { ErrorBox } from './utils/errorBox'
 
 export type NasaObject = {
   date: string
@@ -54,6 +55,15 @@ export const App = () => {
     staticBackground: false,
     flashing: false,
   })
+  const [errorDisplay, setErrorDisplay] = useState<boolean>(false)
+
+  useEffect(() => {
+    if (errorDisplay) {
+      setTimeout(() => {
+        setErrorDisplay(false)
+      }, 3000)
+    }
+  }, [errorDisplay])
 
   useEffect(() => {
     const getPhoto = async () => {
@@ -103,7 +113,7 @@ export const App = () => {
     }
 
     conditionallySetDropdownForImageSelect()
-  }, [currentYear, currentMonth])
+  }, [currentYear, currentMonth, apiDataTotal])
 
   const selectedPlaylist = selectedId && playLists ? getPlaylistFromId(selectedId, playLists) : undefined
 
@@ -218,21 +228,31 @@ export const App = () => {
           }}
           placeHolder="Select Month"
         />
-        <CustomSelect
-          styles={{ dropdown: { width: '500px' } }}
-          options={currentList}
-          toId={option => {
-            return option[0] + option[1] + option[2]
+        <div
+          onClick={() => {
+            if (apiDataTotal.length === 0) {
+              setErrorDisplay(true)
+            }
           }}
-          toText={option => {
-            return option[1] + ' ' + option[2] + ' ' + option[0] + ' ' + option[3]
-          }}
-          onChange={async option => {
-            const res = await getImageOfTheDay(toSixFigureDate(currentYear, currentMonth + 1, +option[2]))
-            setCurrentDisplayed(res)
-          }}
-          placeHolder="Select Your Image"
-        />
+          style={{ zIndex: 5005 }}
+        >
+          <CustomSelect
+            styles={{ dropdown: { width: '500px' } }}
+            options={currentList}
+            toId={option => {
+              return option[0] + option[1] + option[2]
+            }}
+            toText={option => {
+              return option[1] + ' ' + option[2] + ' ' + option[0] + ' ' + option[3]
+            }}
+            onChange={async option => {
+              const res = await getImageOfTheDay(toSixFigureDate(currentYear, currentMonth + 1, +option[2]))
+              setCurrentDisplayed(res)
+            }}
+            placeHolder="Select Your Image"
+          />
+        </div>
+        {errorDisplay ? <ErrorBox opacity={1} /> : <ErrorBox opacity={0} />}
         {playLists ? (
           <CustomSelect
             options={playLists}

@@ -87,7 +87,6 @@ app.get('/SpaceViewer', async (req, res) => {
     return resultObj
   }
   const finalData = await getData(date)
-  console.log('this is final!' + finalData)
 
   res.send(finalData)
 })

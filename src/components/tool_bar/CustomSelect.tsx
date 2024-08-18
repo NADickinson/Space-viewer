@@ -1,5 +1,5 @@
 import { Dropdown, IDropdownOption } from '@fluentui/react'
-import React from 'react'
+import React, { useState } from 'react'
 
 export const CustomSelect = <Toption extends unknown>({
   options,
@@ -18,6 +18,7 @@ export const CustomSelect = <Toption extends unknown>({
   disabled?: boolean
   styles?: object
 }) => {
+  const [selectedOption, setSelectedOption] = useState<IDropdownOption | undefined>()
   return (
     <Dropdown
       options={options.map(option => {
@@ -44,6 +45,7 @@ export const CustomSelect = <Toption extends unknown>({
           border: '2px solid #033A56',
           borderRadius: '4px',
           padding: '0px',
+          zIndex: '5001',
         },
         dropdownItem: {
           selectors: {
@@ -58,10 +60,11 @@ export const CustomSelect = <Toption extends unknown>({
           fontSize: '14px',
         },
       }}
-      selectedKey={null}
+      selectedKey={selectedOption ? selectedOption.key : undefined}
       placeholder={placeHolder}
       disabled={disabled}
       onChange={(_, option: IDropdownOption | undefined) => {
+        setSelectedOption(option)
         const key = option?.key
         if (typeof key !== 'string') return
         const selected = options.find(option => toId(option) === key)
