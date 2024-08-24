@@ -72,7 +72,6 @@ export const App = () => {
         console.log('fail')
         return
       }
-      console.log(data)
       if (data.title === '404 Not Found') {
         data = await getImageOfTheDay(toSixFigureDate(currentYear, currentMonth + 1, new Date().getDate() - 1))
       }
