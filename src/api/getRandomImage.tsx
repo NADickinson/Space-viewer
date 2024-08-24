@@ -11,8 +11,6 @@ export const getRandomImage = async () => {
 
     const data = await response.json()
 
-    console.log(data)
-
     const isNasaObject = is({
       date: 'string',
       explanation: 'string',

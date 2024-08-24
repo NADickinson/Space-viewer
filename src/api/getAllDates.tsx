@@ -5,7 +5,7 @@ export const getAllData = async () => {
       throw new Error('response error')
     }
     const data = response.json()
-    console.log(data)
+
     return data
   } catch (err) {
     console.log(err)

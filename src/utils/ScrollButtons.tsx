@@ -15,7 +15,6 @@ export const ScrollButtons = ({
 }) => {
   const [currentDisplayDate, setCurrentDisplayDate] = useState<Date>()
   useEffect(() => {
-    console.log(currentDisplayed.date)
     let startingYear = currentDisplayed.date.slice(0, 2)
     let startingMonth = currentDisplayed.date.slice(2, 4)
     let startingDay = currentDisplayed.date.slice(4, 6)
@@ -56,7 +55,6 @@ export const ScrollButtons = ({
           if (isLeft && currentDisplayDate) {
             const newDate = new Date(currentDisplayDate)
             newDate.setDate(currentDisplayDate.getDate() - 1)
-            console.log(newDate)
             let data = await getImageOfTheDay(
               toSixFigureDate(newDate.getFullYear(), newDate.getMonth(), newDate.getDate())
             )
@@ -68,7 +66,6 @@ export const ScrollButtons = ({
             if (currentDisplayDate) {
               const newDate = new Date(currentDisplayDate)
               newDate.setDate(currentDisplayDate.getDate() + 1)
-              console.log(newDate)
               let data = await getImageOfTheDay(
                 toSixFigureDate(newDate.getFullYear(), newDate.getMonth(), newDate.getDate())
               )

@@ -10,7 +10,7 @@ export const FullScreenDisplay = ({
   selectedPlayList,
   currentInterval,
   slideShowTransistion,
-  setIsDisplayed, //this is for cross off
+  setIsDisplayed,
 }: {
   isDisplayed: boolean
   playlists: PlayList[] | undefined
@@ -39,7 +39,6 @@ export const FullScreenDisplay = ({
             if (isString(selectedPlayList) && isArrayOf(isPlaylist)(playlists)) {
               const currentPlaylist = getPlaylistFromId(selectedPlayList, playlists)
               if (currentPlaylist && currentIndex < currentPlaylist.list.length - 1) {
-                console.log(currentIndex)
                 return currentIndex + 1
               } else {
                 return 0
@@ -71,6 +70,3 @@ export const FullScreenDisplay = ({
     )
   }
 }
-
-// //closures chatgpt- front end masters
-// //custom hooks

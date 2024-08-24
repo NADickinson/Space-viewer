@@ -53,7 +53,6 @@ export const deletePlaylist = (playlistToDelete: PlayList) => {
     const result = loadedPlaylists.filter(playList => {
       return playList.id !== playlistToDelete.id
     })
-    console.log(result)
     localStorage.setItem('Playlists', JSON.stringify(result))
   }
 }

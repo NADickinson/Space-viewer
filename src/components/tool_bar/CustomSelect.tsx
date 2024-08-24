@@ -73,5 +73,3 @@ export const CustomSelect = <Toption extends unknown>({
     ></Dropdown>
   )
 }
-
-//TODO dropdown doesnt open when shrunk!

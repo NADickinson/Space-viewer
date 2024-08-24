@@ -6,5 +6,3 @@ export const sixFigureReverse = (sixFigureDate: string) => {
   const year = century + yearPart.padStart(2, '0')
   return day + '/' + month + '/' + year
 }
-
-//menus not opening shrunk/ mobile

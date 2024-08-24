@@ -1,7 +1,6 @@
 import { is } from 'ts-guardian'
 
 export const getImageOfTheDay = async (date: string) => {
-  console.log(date)
   try {
     const response = await fetch(`http://localhost:3001/SpaceViewer?date=${date}`)
     if (!response.ok) {
@@ -9,7 +8,6 @@ export const getImageOfTheDay = async (date: string) => {
     }
 
     const data = (await response.json()) as unknown
-    console.log(data)
     const isNasaObject = is({
       date: is('string'),
       explanation: is('string').or('undefined'),

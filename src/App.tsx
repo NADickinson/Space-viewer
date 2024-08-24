@@ -94,11 +94,9 @@ export const App = () => {
         )
       }
       const x = await getAllData()
-      console.log(x)
     }
     getPhoto()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    console.log()
   }, [])
 
   useEffect(() => {

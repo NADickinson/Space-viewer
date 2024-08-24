@@ -33,7 +33,6 @@ export const EditPlaylistBox = ({
         })
         const newArr = [...playLists]
         newArr.splice(oldPlayListIndex, 1, currentNewOrder)
-        console.log(oldPlayListIndex, currentNewOrder)
         setPlayLists(newArr)
         updateOrAddPlaylist(currentNewOrder)
       }}

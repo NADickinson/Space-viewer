@@ -13,6 +13,7 @@ export const AddNewPlaylistForm = ({ setPlaylists }: { setPlaylists: (playlistsA
         onChange={e => {
           inputVal.current = e.target.value
         }}
+        style={{ margin: '10px', backgroundColor: '#b1b3b3', fontSize: '1.2rem' }}
       ></input>
       <CustomButton
         onClick={() => {
@@ -23,7 +24,6 @@ export const AddNewPlaylistForm = ({ setPlaylists }: { setPlaylists: (playlistsA
           updateOrAddPlaylist(newPlaylist)
           const refreshedPlaylists = loadPlaylists()
           setPlaylists(refreshedPlaylists)
-          console.log(refreshedPlaylists)
         }}
         text={'Add New Playlist'}
       />
