@@ -59,6 +59,7 @@ export const CustomSelect = <Toption extends unknown>({
           fontWeight: 'bold',
           fontSize: '14px',
         },
+        ...styles,
       }}
       selectedKey={selectedOption ? selectedOption.key : undefined}
       placeholder={placeHolder}

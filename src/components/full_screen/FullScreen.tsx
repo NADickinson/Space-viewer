@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import { PlayList } from '../../App'
+import React, { useEffect, useRef, useState } from 'react'
+import { NasaObject, PlayList } from '../../App'
 import { getPlaylistFromId, isPlaylist } from '../../api/playlistFunctions'
 import { is, isArrayOf } from 'ts-guardian'
 import { CustomButton } from '../tool_bar/CustomButton'
@@ -25,6 +25,7 @@ export const FullScreenDisplay = ({
 
   const [index, setIndex] = useState(0)
   const [isImageVisible, setIsImageVisible] = useState(true)
+  const localPlaylist = useRef<NasaObject[]>()
 
   useEffect(() => {
     if (isDisplayed) {
@@ -37,8 +38,13 @@ export const FullScreenDisplay = ({
           setIsImageVisible(true)
           setIndex(currentIndex => {
             if (isString(selectedPlayList) && isArrayOf(isPlaylist)(playlists)) {
-              const currentPlaylist = getPlaylistFromId(selectedPlayList, playlists)
-              if (currentPlaylist && currentIndex < currentPlaylist.list.length - 1) {
+              const currentPlaylist = getPlaylistFromId(selectedPlayList, playlists)?.list.filter(obj => {
+                return obj.media_type === 'image'
+              })
+              if (currentPlaylist) {
+                localPlaylist.current = currentPlaylist
+              }
+              if (currentPlaylist && currentIndex < currentPlaylist.length - 1) {
                 return currentIndex + 1
               } else {
                 return 0
@@ -54,7 +60,17 @@ export const FullScreenDisplay = ({
   if (isDisplayed && playlists && selectedPlayList) {
     return (
       <div className="full-screen-display">
-        <div style={{ zIndex: '5000', pointerEvents: 'auto', display: 'flex', flexDirection: 'row-reverse' }}>
+        <div
+          style={{
+            zIndex: '5000',
+            pointerEvents: 'auto',
+            display: 'flex',
+            flexDirection: 'row-reverse',
+            position: 'absolute',
+            right: '5px',
+            top: '5px',
+          }}
+        >
           <CustomButton text={'Close'} onClick={() => setIsDisplayed(!isDisplayed)} />
         </div>
         <img
@@ -62,7 +78,7 @@ export const FullScreenDisplay = ({
             opacity: isImageVisible ? 1 : 0,
             transition: `opacity ${fadeDuration}ms ease-in-out`,
           }}
-          src={getPlaylistFromId(selectedPlayList, playlists)?.list[index].hdurl}
+          src={localPlaylist.current ? localPlaylist.current[index].hdurl : undefined}
           alt={''}
           className="space-image-full"
         />

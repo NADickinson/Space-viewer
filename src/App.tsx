@@ -231,10 +231,9 @@ export const App = () => {
               setErrorDisplay(true)
             }
           }}
-          style={{ zIndex: 5005 }}
         >
           <CustomSelect
-            styles={{ dropdown: { width: '500px' } }}
+            styles={{ callout: { width: '500px' }, calloutMain: { width: '1000px' } }}
             options={currentList}
             toId={option => {
               return option[0] + option[1] + option[2]

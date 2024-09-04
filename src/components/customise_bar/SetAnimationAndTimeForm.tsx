@@ -14,6 +14,12 @@ export const SetAnimationAndTimeForm = ({
     <div>
       <div style={{ color: '#B1B3B3', padding: '5px' }}>{'Use Slider To Set Image Fade Time On Slideshow'}</div>
       <Slider
+        styles={{
+          valueLabel: {
+            color: 'white',
+          },
+          activeSection: { backgroundColor: '#0078D4' },
+        }}
         onChange={value => {
           setTime(value === 0 ? 1000 : value * 2000)
         }}
