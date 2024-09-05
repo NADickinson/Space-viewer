@@ -1,4 +1,4 @@
-import { IButtonStyles, PrimaryButton } from '@fluentui/react'
+import { PrimaryButton } from '@fluentui/react'
 import React, { ComponentProps } from 'react'
 
 export const CustomButton = ({

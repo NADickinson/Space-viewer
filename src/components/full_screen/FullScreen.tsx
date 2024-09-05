@@ -55,7 +55,7 @@ export const FullScreenDisplay = ({
         }, fadeDuration)
       }
     }
-  }, [isImageVisible, currentInterval, fadeDuration, isDisplayed, playlists, selectedPlayList])
+  }, [isImageVisible, currentInterval, fadeDuration, isDisplayed, playlists, selectedPlayList, isString])
 
   if (isDisplayed && playlists && selectedPlayList) {
     return (

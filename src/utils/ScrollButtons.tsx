@@ -3,7 +3,6 @@ import { CustomButton } from '../components/tool_bar/CustomButton'
 import { getImageOfTheDay } from '../api/getImageOfTheDay'
 import { toSixFigureDate } from './toSixFigureDate'
 import { NasaObject } from '../App'
-import { months } from '../api/dateFunction'
 export const ScrollButtons = ({
   isLeft,
   currentDisplayed,

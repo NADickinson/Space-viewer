@@ -1,4 +1,4 @@
-import React, { ReactNode, useEffect, useRef, useState } from 'react'
+import React, { ReactNode, useRef } from 'react'
 import { BackgroundObject, NasaObject } from '../App'
 import { CurrentDescription } from './tool_bar/CurrentDescription'
 import { Stars } from '../utils/Stars'

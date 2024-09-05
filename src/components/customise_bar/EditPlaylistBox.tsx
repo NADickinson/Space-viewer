@@ -1,4 +1,4 @@
-import React, { Children, ReactNode, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { NasaObject, PlayList } from '../../App'
 import { CustomButton } from '../tool_bar/CustomButton'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'

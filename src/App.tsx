@@ -38,7 +38,6 @@ export type BackgroundObject = { moving: boolean; staticBackground: boolean; fla
 export const App = () => {
   const [currentDisplayed, setCurrentDisplayed] = useState<NasaObject>()
   const [apiDataTotal, setApiDataTotal] = useState<DateArray[]>([])
-  const [favList, setFavList] = useState<PlayList>()
   const [customiseMenuDisplayed, setCustomiseMenuDisplayed] = useState(false)
   const [currentYear, setCurrentYear] = useState(new Date().getFullYear())
   const [currentMonth, setCurentMonth] = useState(new Date().getMonth())
@@ -86,13 +85,8 @@ export const App = () => {
       const loadedPlaylists = loadPlaylists()
       if (isArrayOf(isPlaylist)(loadedPlaylists)) {
         setPlayLists(loadedPlaylists)
-        setFavList(
-          loadedPlaylists.find(playlist => {
-            return playlist.name === 'Favourites'
-          })
-        )
       }
-      const x = await getAllData()
+      await getAllData()
     }
     getPhoto()
     // eslint-disable-next-line react-hooks/exhaustive-deps
