@@ -1,4 +1,4 @@
-name: Deploy to S3
+name: Deploy to S3 & ec2
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - master
 
 jobs:
-  build-and-deploy:
+  deploy-front-end:
     runs-on: ubuntu-latest
 
     steps:
@@ -30,3 +30,26 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         run: |
           aws s3 sync ./build s3://spaceviewer --delete --region eu-west-2
+
+  deploy-back-end:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install SSH Key
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.EC2_SSH_KEY }}
+          known_hosts: ${{ secrets.EC2_HOST }}
+
+      - name: Deploy to EC2
+        run: |
+          ssh -o StrictHostKeyChecking=no ec2-user@${{ secrets.EC2_HOST }} << 'EOF'
+            cd ~/
+            git pull origin master
+            cd ./express
+            npm install
+            pm2 restart all || node index.js
+          EOF
