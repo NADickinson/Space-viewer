@@ -59,6 +59,6 @@ jobs:
             git pull origin master
             cd ./express
             npm install
-            kill -9 $(ps aux | grep '[n]ode' | awk '{print $2}')
-            node index.js
+            sudo kill -9 $(ps aux | grep '[n]ode' | awk '{print $2}')
+            nohup node index.js > app.log 2>&1 &
           EOF
