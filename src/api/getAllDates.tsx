@@ -1,6 +1,6 @@
 export const getAllData = async () => {
   try {
-    const response = await fetch(`http://localhost:3001/SpaceData`)
+    const response = await fetch(`${process.env.REACT_APP_API_URL}SpaceData`)
     if (!response.ok) {
       throw new Error('response error')
     }

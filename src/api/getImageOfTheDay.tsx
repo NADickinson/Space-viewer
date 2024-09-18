@@ -2,7 +2,7 @@ import { is } from 'ts-guardian'
 
 export const getImageOfTheDay = async (date: string) => {
   try {
-    const response = await fetch(`http://localhost:3001/SpaceViewer?date=${date}`)
+    const response = await fetch(`${process.env.REACT_APP_API_URL}SpaceViewer?date=${date}`)
     if (!response.ok) {
       throw new Error('response error')
     }
