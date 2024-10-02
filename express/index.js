@@ -1,10 +1,21 @@
 import express from 'express'
 import * as cheerio from 'cheerio'
 import cors from 'cors'
+import https from 'https'
+import fs from 'fs'
 
 const app = express()
 app.use(cors())
 const port = 3001
+
+const productionCertDirectory = '/etc/letsencrypt/live/cosmosviewer.com/'
+const developmentCertDirectory = 'C:/Users/Natha/git/certs/'
+const certDirectory = process.env.NODE_ENV === 'production' ? productionCertDirectory : developmentCertDirectory
+
+const httpsOptions = {
+  key: fs.readFileSync(`${certDirectory}localhost-key.pem`), // Update the path
+  cert: fs.readFileSync(`${certDirectory}localhost.pem`), // Update the path
+}
 
 app.get('/', (req, res) => {
   res.send('Hello World!')
@@ -91,6 +102,6 @@ app.get('/SpaceViewer', async (req, res) => {
   res.send(finalData)
 })
 
-app.listen(port, () => {
+https.createServer(httpsOptions, app).listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 })
