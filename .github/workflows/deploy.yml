@@ -50,7 +50,7 @@ jobs:
             sudo yum update -y
             sudo yum install git -y
             sudo yum install -y nodejs
-            sudo yum install certbot
+            sudo yum install -y certbot
             sudo certbot certonly --manual --preferred-challenges dns -d cosmosviewer.com -d *.cosmosviewer.com
 
 
