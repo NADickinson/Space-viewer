@@ -13,9 +13,8 @@ const developmentCertDirectory = 'C:/Users/Natha/git/certs/'
 const certDirectory = process.env.NODE_ENV === 'production' ? productionCertDirectory : developmentCertDirectory
 
 const httpsOptions = {
-  key: fs.readFileSync(`${certDirectory}localhost-key.pem`), // Update the path
-  cert: fs.readFileSync(`${certDirectory}localhost.pem`), // Update the path
-}
+  key: fs.readFileSync(`${certDirectory}localhost-key.pem`), 
+  cert: fs.readFileSync(`${certDirectory}localhost.pem`), 
 
 app.get('/', (req, res) => {
   res.send('Hello World!')
