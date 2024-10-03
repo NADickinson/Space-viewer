@@ -8,13 +8,17 @@ const app = express()
 app.use(cors())
 const port = 3001
 
-const productionCertDirectory = '/etc/letsencrypt/live/cosmosviewer.com/'
-const developmentCertDirectory = 'C:/Users/Natha/git/certs/'
-const certDirectory = process.env.NODE_ENV === 'production' ? productionCertDirectory : developmentCertDirectory
+const productionCert = '/etc/letsencrypt/live/cosmosviewer.com/fullchain.pem'
+const productionCertKey = '/etc/letsencrypt/live/cosmosviewer.com/privkey.pem'
+const devCert = 'C:/Users/Natha/git/certs/localhost.pem'
+const devCertKey = 'C:/Users/Natha/git/certs/localhost-key.pem'
+const cert = process.env.NODE_ENV === 'production' ? productionCert : devCert
+const certKey = process.env.NODE_ENV === 'production' ? productionCertKey : devCertKey
 
 const httpsOptions = {
-  key: fs.readFileSync(`${certDirectory}localhost-key.pem`), 
-  cert: fs.readFileSync(`${certDirectory}localhost.pem`), 
+  key: fs.readFileSync(certKey),
+  cert: fs.readFileSync(cert),
+}
 
 app.get('/', (req, res) => {
   res.send('Hello World!')
