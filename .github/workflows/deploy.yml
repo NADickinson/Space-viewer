@@ -51,10 +51,9 @@ jobs:
             sudo yum install git -y
             sudo yum install -y nodejs
             sudo yum install -y certbot
-            sudo certbot certonly --manual --preferred-challenges dns -d cosmosviewer.com -d *.cosmosviewer.com
+            sudo certbot certonly --manual --preferred-challenges dns -d cosmosviewer.com -d *.cosmosviewer.com --register-unsafely-without-email
 
 
-              
             if [ ! -d "~/Space-viewer" ]; then
               git clone https://github.com/NADickinson/Space-viewer.git
             fi
