@@ -6,7 +6,7 @@ import fs from 'fs'
 
 const app = express()
 app.use(cors())
-const port = 3001
+const port = process.env.NODE_ENV === 'production' ? 443 : 3001
 
 const productionCert = '/etc/letsencrypt/live/cosmosviewer.com/fullchain.pem'
 const productionCertKey = '/etc/letsencrypt/live/cosmosviewer.com/privkey.pem'
