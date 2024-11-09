@@ -47,17 +47,19 @@ jobs:
       - name: Deploy to EC2
         run: |
           ssh -o StrictHostKeyChecking=no ec2-user@${{ secrets.EC2_HOST }} << 'EOF'
-            sudo yum update -y
-            sudo yum install git -y
-            sudo yum install -y nodejs
-           
-            if [ ! -d "~/Space-viewer" ]; then
-              git clone https://github.com/NADickinson/Space-viewer.git
-            fi
-            cd ~/Space-viewer || exit
-            git pull origin master
-            cd ./express
-            npm install
-            sudo kill -9 $(ps aux | grep '[n]ode' | awk '{print $2}')
-            sudo nohup env NODE_ENV=production node index.js > app.log 2>&1 &
+          sudo yum update -y
+          sudo yum install git -y
+          sudo yum install -y nodejs
+          sudo npm install -g pm2
+          if [ ! -d "~/Space-viewer" ]; then
+            git clone https://github.com/NADickinson/Space-viewer.git
+          fi
+          cd ~/Space-viewer || exit
+          git pull origin master
+          cd ./express
+          npm install
+          export NODE_ENV=production
+          sudo pm2 delete cosmosviewer
+          sudo pm2 start npm --name "cosmosviewer" -- run prod
+          pm2 save
           EOF
