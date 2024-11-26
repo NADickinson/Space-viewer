@@ -290,6 +290,9 @@ export const App = () => {
         <CustomButton
           text={'Play SlideShow'}
           onClick={() => {
+            if (!selectedId || (selectedPlaylist?.list?.length ?? 0) === 0) {
+              return
+            }
             setSlideShowDisplayed(!slideShowDisplayed)
           }}
         />
