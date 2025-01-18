@@ -20,6 +20,7 @@ import { toSixFigureDate } from './utils/toSixFigureDate'
 import { getAllData } from './api/getAllDates'
 import { BackgroundAnimationForm } from './components/customise_bar/backgroundAnimationForm'
 import { ErrorBox } from './utils/errorBox'
+import { NewSelect } from './components/tool_bar/NewSelect'
 
 export type NasaObject = {
   date: string
@@ -140,9 +141,9 @@ export const App = () => {
           <CustomiseBar>
             <AddNewPlaylistForm setPlaylists={setPlayLists} />
             {playLists ? (
-              <CustomSelect
+              <NewSelect
                 options={playLists}
-                toId={option => {
+                toVal={option => {
                   return option.id
                 }}
                 toText={option => {
@@ -195,29 +196,26 @@ export const App = () => {
         ) : undefined}
       </ContentContainer>
       <ToolBar>
-        <CustomSelect
+        <NewSelect
           options={yearsForDropDown()}
-          toId={option => {
+          onChange={setCurrentYear}
+          toVal={option => {
             return option.toString()
           }}
           toText={option => {
             return option.toString()
           }}
-          onChange={setCurrentYear}
-          placeHolder="Select Year"
+          placeHolder={'Select Year'}
         />
-        <CustomSelect
+        <NewSelect
           options={monthsForDropDown(currentYear)}
-          toId={option => {
+          onChange={setCurentMonth}
+          toVal={option => {
             return option.toString()
           }}
           toText={option => {
             return months[option]
           }}
-          onChange={option => {
-            setCurentMonth(option)
-          }}
-          placeHolder="Select Month"
         />
         <div
           onClick={() => {
@@ -226,38 +224,22 @@ export const App = () => {
             }
           }}
         >
-          <CustomSelect
-            styles={{ callout: { width: '500px' }, calloutMain: { width: '1000px' } }}
+          <NewSelect
             options={currentList}
-            toId={option => {
+            onChange={async option => {
+              const res = await getImageOfTheDay(toSixFigureDate(currentYear, currentMonth + 1, +option[2]))
+              console.log(res)
+              setCurrentDisplayed(res)
+            }}
+            toVal={option => {
               return option[0] + option[1] + option[2]
             }}
             toText={option => {
               return option[1] + ' ' + option[2] + ' ' + option[0] + ' ' + option[3]
             }}
-            onChange={async option => {
-              const res = await getImageOfTheDay(toSixFigureDate(currentYear, currentMonth + 1, +option[2]))
-              setCurrentDisplayed(res)
-            }}
-            placeHolder="Select Your Image"
           />
         </div>
         {errorDisplay ? <ErrorBox opacity={1} /> : <ErrorBox opacity={0} />}
-        {playLists ? (
-          <CustomSelect
-            options={playLists}
-            toId={option => {
-              return option.id
-            }}
-            toText={option => {
-              return option.name
-            }}
-            onChange={opt => {
-              setSelectedId(opt.id)
-            }}
-            placeHolder={'Currently Selected Playlist'}
-          />
-        ) : undefined}
         <CustomButton
           text={'Add To Selected Playlist'}
           onClick={() => {
@@ -273,7 +255,6 @@ export const App = () => {
             }
           }}
         />
-
         <CustomButton
           text={'See Random Image'}
           onClick={async () => {
