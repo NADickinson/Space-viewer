@@ -77,7 +77,6 @@ body {
 .tool-bar {
   margin-top: 10px;
   margin-bottom: 2px;
-  max-height: 70px;
   display: flex;
   flex-direction: row;
   flex: 1;
