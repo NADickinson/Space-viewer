@@ -222,6 +222,7 @@ export const App = () => {
               setErrorDisplay(true)
             }
           }}
+          style={{ maxWidth: '100%' }}
         >
           <NewSelect
             options={currentList}
