@@ -4,6 +4,20 @@ import cors from 'cors'
 import https from 'https'
 import fs from 'fs'
 import devcert from 'devcert'
+import { is } from 'ts-guardian'
+
+const toSixFigureDate = (year, month, day) => {
+  let yearModified = year
+  let monthModified = month
+  let dayModified = day
+  if (month === 0) {
+    monthModified = 12
+    yearModified -= 1
+  }
+  return `${yearModified.toString().slice(-2).padStart(2, '0')}${monthModified.toString().padStart(2, '0')}${dayModified
+    .toString()
+    .padStart(2, '0')}`
+}
 ;(async () => {
   const isDev = process.env.NODE_ENV !== 'production'
   const devKeyAndCert = isDev ? await devcert.certificateFor('localhost') : undefined
@@ -18,8 +32,50 @@ import devcert from 'devcert'
     cert: isDev ? devKeyAndCert.cert : fs.readFileSync(productionCert),
   }
 
+  const apiKey = 'fPN8O6gKbSfk1d2XezKHiVKgtejwoqz5Kc6Pcb5y'
+
   app.get('/', (req, res) => {
     res.send('Hello World!')
+  })
+
+  app.get('/RandomImage', async (req, res) => {
+    try {
+      const response = await fetch(`https://api.nasa.gov/planetary/apod?api_key=${apiKey}&count=1`)
+      if (!response.ok) {
+        return res.status(500).json({ error: 'Failed to fetch from NASA API' })
+      }
+
+      const data = await response.json()
+
+      const isNasaObject = is({
+        date: 'string',
+        explanation: 'string',
+        hdurl: 'string',
+        media_type: 'string',
+        title: 'string',
+      })
+
+      if (Array.isArray(data)) {
+        const randomObj = data[0]
+        if (isNasaObject(randomObj)) {
+          const [year, month, day] = randomObj.date.split('-').map(Number)
+          return res.json({
+            date: toSixFigureDate(year, month, day),
+            explanation: randomObj.explanation,
+            hdurl: randomObj.hdurl,
+            media_type: randomObj.media_type,
+            title: randomObj.title,
+          })
+        } else {
+          return res.status(400).json({ error: 'Invalid response structure' })
+        }
+      } else {
+        return res.status(400).json({ error: 'Expected array from NASA API' })
+      }
+    } catch (err) {
+      console.error(err)
+      res.status(500).json({ error: 'Internal server error' })
+    }
   })
 
   app.get('/SpaceData', async (req, res) => {
