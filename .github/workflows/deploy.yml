@@ -1,0 +1,65 @@
+name: Deploy to S3 & ec2
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy-front-end:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build project
+        run: npm run build
+
+      - name: Deploy to S3
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: |
+          aws s3 sync ./build s3://cosmosviewer.com --delete --region eu-west-2
+
+  deploy-back-end:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install SSH Key
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.EC2_SSH_KEY }}
+          known_hosts: ${{ secrets.EC2_HOST }}
+
+      - name: Deploy to EC2
+        run: |
+          ssh -o StrictHostKeyChecking=no ec2-user@${{ secrets.EC2_HOST }} << 'EOF'
+          sudo yum update -y
+          sudo yum install git -y
+          sudo yum install -y nodejs
+          sudo npm install -g pm2
+          if [ ! -d "~/Space-viewer" ]; then
+            git clone https://github.com/NADickinson/Space-viewer.git
+          fi
+          cd ~/Space-viewer || exit
+          git pull origin master
+          cd ./express
+          npm install
+          export NODE_ENV=production
+          sudo pm2 delete cosmosviewer
+          sudo pm2 start npm --name "cosmosviewer" -- run prod
+          pm2 save
+          EOF

@@ -1,0 +1,20 @@
+{
+  "name": "express",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "prod": "NODE_ENV=production node index.js"
+  },
+  "type": "module",
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/cheerio": "^0.22.35",
+    "cheerio": "^1.0.0-rc.12",
+    "cors": "^2.8.5",
+    "devcert": "^1.2.2",
+    "express": "^4.19.2"
+  }
+}
