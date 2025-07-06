@@ -66,7 +66,7 @@ then wait a couple mins
 
 4.return to powershell and hit enter and wait 2 mins
 
-5.restart api by pushing to main
+5.restart api by pushing to main.
 
 [node-install]: https://nodejs.org/en/download/
 [eslint-extension]: vscode:extension/dbaeumer.vscode-eslint
