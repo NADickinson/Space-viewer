@@ -37,12 +37,12 @@ const toSixFigureDate = (year, month, day) => {
     res.send('Hello World!')
   })
 
-  app.get('/RandomImage', async (req, res) => {
-    try {
-      const response = await fetch(`https://api.nasa.gov/planetary/apod?api_key=${apiKey}&count=1`)
-      if (!response.ok) {
-        return res.status(500).json({ error: 'Failed to fetch from NASA API' })
-      }
+  // app.get('/RandomImage', async (req, res) => {
+  //   try {
+  //     const response = await fetch(`https://api.nasa.gov/planetary/apod?api_key=${apiKey}&count=1`)
+  //     if (!response.ok) {
+  //       return res.status(500).json({ error: 'Failed to fetch from NASA API' })
+  //     }
 
       const data = await response.json()
 

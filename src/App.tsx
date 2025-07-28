@@ -255,13 +255,13 @@ export const App = () => {
             }
           }}
         />
-        <CustomButton
+        {/* <CustomButton
           text={'See Random Image'}
           onClick={async () => {
             const data = await getRandomImage()
             setCurrentDisplayed(data)
           }}
-        />
+        /> */}
         <CustomButton
           text={'See Description'}
           onClick={() => {
