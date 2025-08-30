@@ -5,7 +5,7 @@ import https from 'https'
 import fs from 'fs'
 import devcert from 'devcert'
 import { is } from 'ts-guardian'
-import { apiKey } from './apiKey'
+// import { apiKey } from './apiKey'
 
 const toSixFigureDate = (year, month, day) => {
   let yearModified = year
@@ -44,38 +44,38 @@ const toSixFigureDate = (year, month, day) => {
   //       return res.status(500).json({ error: 'Failed to fetch from NASA API' })
   //     }
 
-      const data = await response.json()
+  //     const data = await response.json()
 
-      const isNasaObject = is({
-        date: 'string',
-        explanation: 'string',
-        hdurl: 'string',
-        media_type: 'string',
-        title: 'string',
-      })
+  //     const isNasaObject = is({
+  //       date: 'string',
+  //       explanation: 'string',
+  //       hdurl: 'string',
+  //       media_type: 'string',
+  //       title: 'string',
+  //     })
 
-      if (Array.isArray(data)) {
-        const randomObj = data[0]
-        if (isNasaObject(randomObj)) {
-          const [year, month, day] = randomObj.date.split('-').map(Number)
-          return res.json({
-            date: toSixFigureDate(year, month, day),
-            explanation: randomObj.explanation,
-            hdurl: randomObj.hdurl,
-            media_type: randomObj.media_type,
-            title: randomObj.title,
-          })
-        } else {
-          return res.status(400).json({ error: 'Invalid response structure' })
-        }
-      } else {
-        return res.status(400).json({ error: 'Expected array from NASA API' })
-      }
-    } catch (err) {
-      console.error(err)
-      res.status(500).json({ error: 'Internal server error' })
-    }
-  })
+  //     if (Array.isArray(data)) {
+  //       const randomObj = data[0]
+  //       if (isNasaObject(randomObj)) {
+  //         const [year, month, day] = randomObj.date.split('-').map(Number)
+  //         return res.json({
+  //           date: toSixFigureDate(year, month, day),
+  //           explanation: randomObj.explanation,
+  //           hdurl: randomObj.hdurl,
+  //           media_type: randomObj.media_type,
+  //           title: randomObj.title,
+  //         })
+  //       } else {
+  //         return res.status(400).json({ error: 'Invalid response structure' })
+  //       }
+  //     } else {
+  //       return res.status(400).json({ error: 'Expected array from NASA API' })
+  //     }
+  //   } catch (err) {
+  //     console.error(err)
+  //     res.status(500).json({ error: 'Internal server error' })
+  //   }
+  // })
 
   app.get('/SpaceData', async (req, res) => {
     const getAllDates = async () => {
