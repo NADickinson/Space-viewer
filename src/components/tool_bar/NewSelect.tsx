@@ -12,7 +12,11 @@ export const NewSelect = ({
   placeHolder?: string
 }) => {
   return (
-    <select className="custom_select" onChange={e => onChange(options.find(o => toVal(o) === e.target.value))}>
+    <select
+      className="custom_select"
+      defaultValue={''}
+      onChange={e => onChange(options.find(o => toVal(o) === e.target.value))}
+    >
       <option value="" disabled>
         {placeHolder}
       </option>
