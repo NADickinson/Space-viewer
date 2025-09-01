@@ -76,6 +76,7 @@ export const App = () => {
       }
 
       setCurrentDisplayed(data)
+      console.log(data)
       const data2 = await getAllData()
       if (data2 === undefined) {
         return
@@ -215,6 +216,7 @@ export const App = () => {
           toText={option => {
             return months[option]
           }}
+          placeHolder={'Select Month'}
         />
         <div
           onClick={() => {
@@ -237,6 +239,7 @@ export const App = () => {
             toText={option => {
               return option[1] + ' ' + option[2] + ' ' + option[0] + ' ' + option[3]
             }}
+            placeHolder={'Select your image'}
           />
         </div>
         {errorDisplay ? <ErrorBox opacity={1} /> : <ErrorBox opacity={0} />}
