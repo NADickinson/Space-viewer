@@ -119,6 +119,7 @@ const toSixFigureDate = (year, month, day) => {
       const explanationRegex = /<b> Explanation: <\/b>(.*?)<p>/is
       const titleRegex = /<title>\s*(.*?)\s*<\/title>/i
       const date = dateParam
+      const videoRegex = /<video[^>]*>.*?<source[^>]+src="([^">]+)"/is
       let urlMatch
       let titleMatch
       let resultObj = { date: date }
@@ -133,6 +134,12 @@ const toSixFigureDate = (year, month, day) => {
       titleMatch = titleRegex.exec(data)
       if (titleMatch !== null) {
         resultObj.title = titleMatch[1].trim()
+      }
+      const videoMatch = videoRegex.exec(data)
+      if (videoMatch) {
+        const src = videoMatch[1]
+        resultObj.hdurl = src.startsWith('http') ? src : 'https://apod.nasa.gov/apod/' + src
+        resultObj.media_type = 'video'
       }
 
       let explanationMatch = explanationRegex.exec(data)

@@ -42,8 +42,13 @@ export const ContentContainer = ({
       ) : undefined}
       {src.media_type === 'image' ? (
         <img src={src.hdurl} alt={''} className={'space-image'} />
-      ) : (
+      ) : src.hdurl?.includes('youtube.com') ? (
         <iframe src={src.hdurl} title={'video'} className={'space-image'} style={{ width: '80%' }} />
+      ) : (
+        <video controls className="space-image" style={{ width: '80%' }}>
+          <source src={src.hdurl} type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
       )}
       {children}
       {customiseMenuDisplayed ||
